@@ -1,0 +1,104 @@
+@import "../scss/scss/bootstrap.scss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap');
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    text-align: center !important;
+}
+
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    color: $black;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+h5 {
+    color: $black;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 5px;
+}
+
+p,
+#dscrptnSelected {
+    white-space: pre-line;
+}
+
+.card {
+    text-decoration: none;
+    border-radius: 10px;
+    border: .7px solid gray;
+    padding: 0;
+    background-color: #ece8e8e1;
+
+    &-img-top {
+        max-width: 100%;
+        object-fit: cover;
+        padding: .5em;
+    }
+
+}
+
+#furnitures {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#dscrptnSelected {
+    font-size: 1.65rem;
+
+    &::first-line {
+        font: oblique bold 1.9rem 'Noto Sans JP';
+    }
+}
+
+#prcSelected {
+    font-size: 1.75rem;
+}
+
+
+
+
+
+
+
+.btn {
+    border: .6px solid $secondary;
+    margin: 15px;
+    border-radius: 9px;
+
+}
+
+
+
+
+
+
+
+
+
+
+nav {
+
+    a {
+        font-size: 1.4em;
+    }
+
+    i {
+        color: $warning;
+    }
+
+    img {
+        border-radius: 10px;
+    }
+
+}
