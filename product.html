@@ -25,7 +25,7 @@
 <body>
     <header class="container">
         <div class="row">
-            <nav class="col navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="col navbar navbar-expand-lg navbar-dark bg-dark rounded-bottom">
                 <a class="navbar-brand" href="index.html"><img src="images/orinoco_logo.png" width="150" height="60"
                         alt="logo site"></a>
 
@@ -42,7 +42,7 @@
                     </ul>
                     <ul class="navbar-nav list-inline ml-auto">
                         <li class="nav-item list-inline-item">
-                            <a class="nav-link" href="cart.html"><i class="fas fa-cart-arrow-down"></i></a>
+                            <a class="nav-link" href="cart.html"><i class="fas fa-cart-arrow-down fa-lg"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -53,16 +53,16 @@
 
     <main class="container">
 
-        <div class="jumbotron text-left">
+        <div class="jumbotron text-left shadow">
             <h1 id="productTitle"></h1> <!-- Ajout du titre via 'titleDiv' in "product.js"-->
         </div>
 
-        <section id="product" class="col mb-3 text-center">
-            <img id="imgSelected" src="#"> <!-- Ajout img via 'imageDiv' in "product.js"-->
+        <section id="product">
+            <img id="imgSelected"> <!-- Ajout img via 'imageDiv' in "product.js"-->
             <div id="prcSelected"></div> <!-- Ajout prix via 'priceDiv'-->
             <div id="dscrptnSelected"></div> <!-- Ajout description via descriptionDiv-->
             
-            <select id="vrnshSelected" class="custom-select text-secondary"> <!-- Ajout sélection vernis via varnishDiv-->
+            <select id="vrnshSelected"> <!-- Ajout sélection vernis via varnishDiv-->
                 <option selected>choisissez votre vernis</option>
             </select>
 
