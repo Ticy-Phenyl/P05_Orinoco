@@ -1,13 +1,13 @@
+//Récupérer url:
+let searchParams = new URLSearchParams(window.location.search);
 
-
-
-let searchParams = new URLSearchParams(window.location.search); //use URLSearchParams constructor to get values of url parameters
-let productId = searchParams.get("id"); // get id product
+//Récupérer id du produit:
+let productId = searchParams.get("id");
 
 
 //Variables utilisées pour constituer la page + ajout class: 
 let productCard = document.getElementById("product");
-productCard.classList.add('card', 'border-light', 'col-10', 'mx-auto', 'text-center');
+productCard.classList.add('card', 'shadow-lg', 'border-light', 'col-10', 'col-mb-3', 'mx-auto', 'text-center');
 
 let titleDiv = document.getElementById("productTitle");
 titleDiv.classList.add('text-center');
@@ -22,23 +22,30 @@ let priceDiv = document.getElementById("prcSelected");
 priceDiv.classList.add('mb-3')
 
 let varnishDiv = document.getElementById('vrnshSelected');
-varnishDiv.classList.add('w-25', 'mx-auto', 'my-4');
+varnishDiv.classList.add('w-25', 'mx-auto', 'my-4', 'custom-select', 'text-secondary');
 
 let cartDiv = document.getElementById("crtSelected");
 cartDiv.classList.add('btn', 'btn-secondary', 'rounded', 'w-45', 'mx-auto', 'my-4', 'py-1');
-cartDiv.innerHTML = 'Ajoutez au panier   ' + `<i class="fas fa-cart-plus"></i>`;
+cartDiv.innerHTML = 'Ajoutez au panier ' + '&nbsp' + `<i class="fas fa-cart-plus"></i>`;
 cartDiv.style.fontSize = '1.5rem';
 cartDiv.href = 'cart.html';
 
-
-
-fetch("http://localhost:3000/api/furniture/" + productId) // GET camera according to the id
-    .then(datas => datas.json()) // datas in JSON format convert to an object and return a promise
+//Récupérer produit selon son id:
+fetch("http://localhost:3000/api/furniture/" + productId)
+    //Passage de json à objet:
+    .then(datas => datas.json())
     .then(datas => {
 
         //Définition title:
         let productName = datas["name"];  // pt être remplacé par datas.name
         titleDiv.textContent = 'Personnalisez votre ' + productName + '.';
+
+        //Si pas d'article sélectionné:
+        if (productName === undefined) {
+            titleDiv.textContent = "Vous n'avez pas sélectionné d'article:";
+            titleDiv.innerHTML += '<br><a href="index.html">voir nos articles disponibles</a>';
+            productCard.hidden = true;
+        }
 
         //Définition de l'image: 
         let productImage = datas["imageUrl"];
@@ -48,7 +55,6 @@ fetch("http://localhost:3000/api/furniture/" + productId) // GET camera accordin
         //Définition de la description:
         let productDescription = datas["description"];
         descriptionDiv.textContent = 'Description: \r\n' + productDescription;
-
 
         //Définition du prix:
         let productPrice = datas["price"];
@@ -64,24 +70,63 @@ fetch("http://localhost:3000/api/furniture/" + productId) // GET camera accordin
             varnishDiv.add(newOption);
         }
 
+
+        // Retrait alerte varnsish une fois sélectionné:
+        varnishDiv.addEventListener('click', () => {
+            varnishDiv.classList.remove('border-danger', 'text-danger');
+
+        });
+
+
+        //Stocker varnish sélectionné:
+        let selectOption = varnishDiv.options[varnishDiv.selectedIndex];
+        let lastSelect = localStorage.getItem('varnishDiv');
+
+        if (lastSelect) {
+            varnishDiv.value = lastSelect;
+        }
+        varnishDiv.onchange = () => {
+            lastSelect = varnishDiv.options[varnishDiv.selectedIndex].value;
+            console.log(lastSelect);
+            let saveMe = JSON.stringify(localStorage.setItem('vrsh', lastSelect));
+        }
+
+        // Condition si varnish ok et stockage localStorage: 
+        function setUpStorage() {
+
+            cartDiv.addEventListener('click', () => {
+                if (vrnshSelected.value == 'choisissez votre vernis') {
+                    cartDiv.removeAttribute('href');
+                    varnishDiv.classList.add('border-danger', 'text-danger');
+                } else {
+                    let cart = JSON.parse(localStorage.getItem('cart'));
+
+                    let cartId = productId;
+                    let cartName = productName;
+                    let cartImage = productImage;
+                    let cartPrice = productPrice;
+                    let cartVarnish = lastSelect;
+                    let cartQuantity = 1;
+                    let cartDescription = productDescription;
+                    let index = cart.findIndex(newitem => newitem.cartId === cartId);
+                    if (index !== -1) {
+                        cart[index].cartQuantity++; //Augmente seulement la qté
+                    } else {
+                        cart.push({ cartId, cartName, cartImage, cartPrice, cartVarnish, cartQuantity, cartDescription }); //Si non existant ajoute item au localStorage
+                    }
+
+                    localStorage.setItem('cart', JSON.stringify(cart));
+
+                }
+
+            })
+        }
+        setUpStorage();
     })
     .catch(error => {
         console.log(error);
-        alert("Trying to reconnect......");
+        alert("Tentative de reconnexion.....");
         setTimeout(function () { document.location.reload() }, 1000);
     });
-
-
-// Ajout au panier:
-
-cartDiv.addEventListener('click', () => {
-    let nameStorage = localStorage.getItem('varnish');
-    if (nameStorage == null) {
-        cartDiv.href = "#";
-        varnishDiv.classList.add('border-danger');
-    } else {
-        console.log('varnish');
-    }
-});
 
 

@@ -4,14 +4,14 @@ const furniture = document.getElementById('furnitures');
 
 
 //recupération des données de l'API
-fetch(' http://localhost:3000/api/furniture')
+fetch('http://localhost:3000/api/furniture')
 
     .then(response => response.json())
 
     .then(donnees => {
 
-
         //Création card et style :
+        // retour à for i etc si foreach ko
         for (let item = 0; item < donnees.length; item++) {
 
             // Eléments card :
@@ -38,7 +38,7 @@ fetch(' http://localhost:3000/api/furniture')
             newPrice.classList.add('text-center');
             newPrice.textContent = donnees[item].price / 100 + ' €';
             newVarnish.classList.add('text-center');
-            newVarnish.textContent = 'Disponible en: \r\n' + donnees[item].varnish; 
+            newVarnish.textContent = 'Disponible en: \r\n' + donnees[item].varnish;
             newBtn.classList.add('btn', 'btn-secondary', 'mx-4', 'text-white');
             newBtn.href = "product.html?id=" + donnees[item]._id;
             newBtn.textContent = 'Personnalisez le produit';
@@ -54,11 +54,11 @@ fetch(' http://localhost:3000/api/furniture')
             newCard.appendChild(newVarnish);
             newCard.appendChild(newBtn);
 
-            
+
         }
 
     })
 
-    .catch((error) => {
-        console.log(error);
-    });
+    .catch ((error) => {
+    console.log(error);
+})
