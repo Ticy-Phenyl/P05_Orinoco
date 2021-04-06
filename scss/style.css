@@ -10839,7 +10839,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 body {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   text-align: center !important;
 }
 
@@ -10850,6 +10850,7 @@ h1 {
 h2 {
   color: #000;
   text-align: center;
+  font-size: 1.25rem;
 }
 
 h3 {
@@ -10866,12 +10867,13 @@ h5 {
 p,
 #dscrptnSelected {
   white-space: pre-line;
+  font-size: 1.2rem;
 }
 
 .card {
   text-decoration: none;
   border-radius: 10px;
-  border: .7px solid gray;
+  border: 0.7px solid gray;
   padding: 0;
   background-color: #ece8e8e1;
 }
@@ -10880,7 +10882,7 @@ p,
   max-width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  padding: .5em;
+  padding: 0.5em;
 }
 
 #furnitures {
@@ -10899,7 +10901,7 @@ p,
 }
 
 #dscrptnSelected::first-line {
-  font: oblique bold 1.9rem 'Noto Sans JP';
+  font: oblique bold 1.9rem "Noto Sans JP";
 }
 
 #prcSelected {
@@ -10910,6 +10912,24 @@ p,
   border: 0.6px solid #6c757d;
   margin: 15px;
   border-radius: 9px;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:invalid {
+  border: #ffc107;
+}
+
+input:invalidvalid {
+  border: purple;
+}
+
+footer a {
+  font-size: 1.3rem;
 }
 
 nav a {
