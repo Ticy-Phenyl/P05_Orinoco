@@ -75,18 +75,23 @@ input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
 
-input:invalid {
-    border: $warning;
-
-    &valid {
-        border: purple;
+    &:invalid {
+        border: $warning;
     }
 }
 
-footer a {
-    font-size: 1.3rem;
+//Remove placeholder input lors focus (formulaire contact cart.html)
+.form-control:focus::placeholder {
+    opacity: 0;
+}
+
+footer {
+    background-color: $white;
+    
+    a {
+        font-size: 1.3rem;
+    }
 }
 
 nav {
@@ -100,5 +105,33 @@ nav {
 
     img {
         border-radius: 10px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    #validBtn {
+        margin: auto;
+    }
+}
+
+@media only screen and (max-width: 990px) {
+    #nameCart {
+        display: none;
+    }
+
+    .sr-only {
+        display: contents;
+        color: #FFFFFF;
+    }
+}
+
+
+@media only screen and (max-width: 800px) {
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    #dscrptnSelected {
+        font-size: 1.3rem;
     }
 }
