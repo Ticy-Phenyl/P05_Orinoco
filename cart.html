@@ -34,7 +34,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div id="navbarContent" class="collapse navbar-collapse">
+                <div id="navbarContent" class="collapse navbar-collapse text-left">
                     <ul class="navbar-nav list-inline">
                         <li class="nav-item active list-inline-item">
                             <a class="nav-link" href="index.html">Accueil</a>
@@ -42,7 +42,8 @@
                     </ul>
                     <ul class="navbar-nav list-inline ml-auto">
                         <li class="nav-item list-inline-item">
-                            <a class="nav-link" href="cart.html"><i class="fas fa-cart-arrow-down fa-lg"></i></a>
+                            <a class="nav-link" href="cart.html"><i id="nameCart" class="fas fa-cart-arrow-down fa-lg"
+                                    aria-hidden="true"></i><span class="sr-only">Panier</span></a>
                         </li>
                     </ul>
                 </div>
@@ -96,7 +97,7 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
         </script>
 
-    <script type="module" src="./js/cart.js"></script>
+    <script type="module" src="./js/cart.js" defer></script>
 </body>
 
 </html>
