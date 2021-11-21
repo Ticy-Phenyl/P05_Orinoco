@@ -1,5 +1,3 @@
-
-
 const furniture = document.getElementById('furnitures');
 
 
@@ -7,7 +5,6 @@ const furniture = document.getElementById('furnitures');
 fetch('http://localhost:3000/api/furniture')
 
     .then(response => response.json())
-
     .then(donnees => {
 
         //Création card et style :
@@ -43,6 +40,13 @@ fetch('http://localhost:3000/api/furniture')
             newBtn.href = "product.html?id=" + donnees[item]._id;
             newBtn.textContent = 'Personnalisez le produit';
 
+            //Event au passage souris sur btn: 
+            newBtn.addEventListener("mouseenter", () => {
+                newBtn.classList.replace('btn-secondary', 'btn-primary');
+            });
+            newBtn.addEventListener("mouseleave", () => {
+                newBtn.classList.replace('btn-primary', 'btn-secondary');
+            });
 
             //Intégration à index.html:   
             furniture.appendChild(newProduct);
@@ -54,11 +58,9 @@ fetch('http://localhost:3000/api/furniture')
             newCard.appendChild(newVarnish);
             newCard.appendChild(newBtn);
 
-
         }
-
     })
 
-    .catch ((error) => {
-    console.log(error);
-})
+    .catch((error) => {
+        console.log(error);
+    });

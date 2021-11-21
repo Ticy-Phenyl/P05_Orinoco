@@ -7,11 +7,6 @@ if (!localStorage.getItem('cart')) {
 let cart = JSON.parse(localStorage.getItem('cart'));
 console.log(cart);
 
-//Retour accueil si panier vide:
-let returnHome = document.createElement('a');
-returnHome.setAttribute('href', `index.html`);
-returnHome.textContent = 'voir nos articles';
-
 //Affichage contenu h1 #title :
 let titleDiv = document.getElementById('title');
 if (cart.length === 0) {
@@ -35,7 +30,7 @@ if (cart.length === 0) {
   titleCartDiv.classList.add('mx-auto');
 } else {
   titleCartDiv.textContent = 'Articles dans votre panier';
-};
+}
 resumeCart.appendChild(titleCartDiv);
 
 //Variable montant total panier:
@@ -72,25 +67,21 @@ for (let i in cart) {
   divName.appendChild(nameArticle);
 
   const varnishArticle = document.createElement('p');
-  varnishArticle.classList.add('text-muted', 'text-left');
+  varnishArticle.classList.add('text-muted', 'text-left', 'mb-5');
   varnishArticle.textContent = 'Vernis sélectionné: ' + cart[i].cartVarnish;
   divName.appendChild(varnishArticle);
 
-  //Prix article
-  const priceArticle = document.createElement('p');
-  priceArticle.textContent = cart[i].cartPrice / 100 + ' €';
-  priceArticle.classList.add('text-right', 'my-0');
-  priceArticle.style.fontSize = '1.5rem';
-  divName.appendChild(priceArticle);
-
+  const divQtyetPrice = document.createElement('div');
+  divQtyetPrice.classList.add('border-primary')
+  divName.appendChild(divQtyetPrice);
 
   //Boutons quantité article:
   const quantityDiv = document.createElement('div');
-  quantityDiv.classList.add('text-left', 'justify-space-between');
+  quantityDiv.classList.add('text-left', 'justify-space-between',);
   quantityDiv.name = 'quantity';
   quantityDiv.classList.add('mt-n5');
   quantityDiv.setAttribute('onkeypress', 'return false');
-  priceArticle.appendChild(quantityDiv);
+  divQtyetPrice.appendChild(quantityDiv);
 
   const quantitySelected = document.createElement('span');
   quantitySelected.classList.add('text-center');
@@ -98,7 +89,6 @@ for (let i in cart) {
   quantitySelected.style.fontSize = '1.5rem';
   quantitySelected.style.border = 'none';
   quantitySelected.value = cart[i].cartQuantity;
-  quantitySelected.min = 1;
   quantityDiv.appendChild(quantitySelected);
 
   const quantityDecrease = document.createElement('i');
@@ -112,26 +102,37 @@ for (let i in cart) {
     localStorage.setItem('cart', JSON.stringify(cart))
   });
 
-
   const quantityIncrease = document.createElement('i');
   quantityIncrease.classList.add('btn', 'text-left');
   quantityIncrease.setAttribute('onclick', 'window.location.reload();');
   quantityIncrease.innerHTML = `<i class="fas fa-plus"></i>`;
   quantityDiv.appendChild(quantityIncrease);
   quantityIncrease.addEventListener('click', () => {
-    let cart = JSON.parse(localStorage.getItem('cart'));  
+    let cart = JSON.parse(localStorage.getItem('cart'));
     cart[i].cartQuantity++;
     localStorage.setItem('cart', JSON.stringify(cart))
   });
 
+  //Prix article
+  const priceArticle = document.createElement('p');
+  priceArticle.textContent = cart[i].cartPrice / 100 + ' €';
+  priceArticle.classList.add('text-right', 'my-0', 'justify-space-between');
+  priceArticle.style.fontSize = '1.5rem';
+  quantityDiv.appendChild(priceArticle);
 
   //Montant total des articles du panier:
-  articleNumber += cart[i].cartQuantity;
-  totalAmmountCart += cart[i].cartPrice * articleNumber ;
+  articleNumber = cart[i].cartQuantity;
+  totalAmmountCart += cart[i].cartPrice * articleNumber;
+
+  //Conditions si qté = 0:
+  if (cart[i].cartQuantity === 0) {
+    priceArticle.textContent = 0 + " €";
+    quantityDecrease.remove();
+  }
+
 }
 
-
-
+//Total du panier: 
 const totalCartDiv = document.createElement('ul');
 totalCartDiv.classList.add('d-inline', 'w-100', 'border-top', 'border-bottom', 'py-2', 'mt-3');
 cartDiv.appendChild(totalCartDiv);
@@ -149,18 +150,14 @@ totalCart.appendChild(ammountCart);
 
 //Bouton validation panier:
 const buttonOk = document.createElement('button');
-buttonOk.classList.add('btn-success', 'text-white', 'rounded', 'offset-10', 'p-2', 'my-3');
+buttonOk.classList.add('btn-success', 'text-white', 'rounded', 'offset-10', 'p-2', 'my-3', 'mr-2');
+buttonOk.setAttribute('id', 'validBtn');
 buttonOk.textContent = 'Validez votre panier';
 cartDiv.appendChild(buttonOk);
 if (cart.length === 0) {
   buttonOk.style.display = 'none';
   cartDiv.hidden = true;
 }
-
-
-
-
-
 
 
 // --------- Formulaire validation commande ---------
@@ -171,7 +168,7 @@ submitDiv.hidden = true;
 resumeCart.appendChild(submitDiv);
 
 const colDiv = document.createElement('div', 'text-center');
-colDiv.classList.add('col', 'mx-auto');
+colDiv.classList.add('col-lg', 'mx-auto');
 submitDiv.appendChild(colDiv);
 
 const cardDiv = document.createElement('div');
@@ -282,6 +279,7 @@ yourPostalCode.maxLength = 5;
 yourPostalCode.required = true;
 votreCodePostal.appendChild(yourPostalCode);
 
+
 //Partie pour la ville:
 const votreVille = document.createElement('label');
 votreVille.classList.add('ml-2');
@@ -296,21 +294,6 @@ yourCity.type = 'text';
 yourCity.placeholder = 'Ville';
 yourCity.required = true;
 votreVille.appendChild(yourCity);
-
-
-
-
-//Remove placeholder lors focus:
-if (yourMail) {
-  yourMail.addEventListener('focus', () => {
-    yourMail.dataset.placeholder = yourMail.placeholder;
-    yourMail.placeholder = '';
-  })
-
-  yourMail.addEventListener('blur', () => {
-    yourMail.placeholder = yourMail.dataset.placeholder;
-  })
-}
 
 
 //Apparition formulaire coordonnées onclick:
@@ -329,7 +312,83 @@ coordonneesBody.appendChild(buttonCmd);
 
 
 
+//------------ Stockage données formulaire --------------
+
+let products = [];
+let contact;
+
+//Vérification et récupération des input:
+
+buttonCmd.addEventListener('click', () => {
+  //RegEx input :
+  let maskMail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  let maskNameAndfirstName = /^[A-Za-z, \-, ]+$/;
+  let maskAdressAndCity = /^[0-9a-zA-Z, ]+$/;
+  let maskCP = /\d*\.?\d+/;
+
+  //Si RegEx ok:
+  if ((maskMail.test(yourMail.value) === true) && (maskNameAndfirstName.test(yourName.value, yourFirstname.value) === true) && (maskAdressAndCity.test(yourAddress.value, yourCity.value) === true) && (maskCP.test(yourPostalCode.value) === true)) {
+
+    //Variables user input:
+    contact = {
+      firstName: yourFirstname.value,
+      lastName: yourName.value,
+      address: yourAddress.value,
+      cp: yourPostalCode.value,
+      city: yourCity.value,
+      email: yourMail.value,
+    };
+    console.log(contact);
+
+    //Articles in cart:
+    for (let i in cart) {
+      products.push(cart[i].productId);
+    };
+
+    contact.push;
+    localStorage.setItem('userContact', JSON.stringify(contact));
+
+    console.log(localStorage);
+
+  }
 
 
+  //LocalStorage contenant datas input et contenu panier:
+  let send = {
+    contact,
+    products,
+    totalAmmountCart
+  }
+  console.log(send);
 
+  //Envoi à l'api:
+  const post = async function (data) {
+    try {
+      /*Execution de la requête GET*/
+      let response = await fetch('http://localhost:3000/api/furniture/order', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      if (response.ok) {
+
+        let data = await response.json();
+        console.log(data.orderId);
+        localStorage.setItem("responseOrder", data.orderId);
+        window.location = "orderSent.html";
+        localStorage.removeItem("cart");
+
+      } else {
+        console.error('Retour du serveur : ', response.status);
+        alert('Erreur : ' + response.status);
+      }
+    } catch (error) {
+      alert("Erreur : " + error);
+    }
+  };
+  post(send);
+
+});
 

@@ -25,7 +25,7 @@ let varnishDiv = document.getElementById('vrnshSelected');
 varnishDiv.classList.add('w-25', 'mx-auto', 'my-4', 'custom-select', 'text-secondary');
 
 let cartDiv = document.getElementById("crtSelected");
-cartDiv.classList.add('btn', 'btn-secondary', 'rounded', 'w-45', 'mx-auto', 'my-4', 'py-1');
+cartDiv.classList.add('btn', 'btn-secondary', 'text-white', 'rounded', 'w-45', 'mx-auto', 'my-4', 'py-1');
 cartDiv.innerHTML = 'Ajoutez au panier ' + '&nbsp' + `<i class="fas fa-cart-plus"></i>`;
 cartDiv.style.fontSize = '1.5rem';
 cartDiv.href = 'cart.html';
@@ -79,7 +79,6 @@ fetch("http://localhost:3000/api/furniture/" + productId)
 
 
         //Stocker varnish sélectionné:
-        let selectOption = varnishDiv.options[varnishDiv.selectedIndex];
         let lastSelect = localStorage.getItem('varnishDiv');
 
         if (lastSelect) {
@@ -87,13 +86,13 @@ fetch("http://localhost:3000/api/furniture/" + productId)
         }
         varnishDiv.onchange = () => {
             lastSelect = varnishDiv.options[varnishDiv.selectedIndex].value;
+            cartDiv.classList.replace('btn-secondary', 'btn-primary');
             console.log(lastSelect);
-            let saveMe = JSON.stringify(localStorage.setItem('vrsh', lastSelect));
         }
 
-        // Condition si varnish ok et stockage localStorage: 
-        function setUpStorage() {
 
+        // Fonction stockage localStorage si varnish ok: 
+        function setUpStorage() {
             cartDiv.addEventListener('click', () => {
                 if (vrnshSelected.value == 'choisissez votre vernis') {
                     cartDiv.removeAttribute('href');
@@ -128,5 +127,4 @@ fetch("http://localhost:3000/api/furniture/" + productId)
         alert("Tentative de reconnexion.....");
         setTimeout(function () { document.location.reload() }, 1000);
     });
-
 

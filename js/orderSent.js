@@ -1,5 +1,13 @@
+console.log(localStorage);
+let cart = JSON.parse(localStorage.getItem('cart'));
+let contact = JSON.parse(localStorage.getItem('userContact'));
+let orderId = JSON.parse(localStorage.getItem('orderId'));
+let i = 0;
+let articleNumber = 0;
+articleNumber += cart[i].cartQuantity;
+let totalAmmountCart = JSON.parse(localStorage.getItem('totalAmmountCart'));
 
-
+console.log(JSON.parse(localStorage.getItem('orderId')));
 
 //Contenu titre page:
 const thanksTitle = document.getElementById('title');
@@ -15,7 +23,7 @@ divResumeorder.classList.add('mx-auto', 'w-50');
 enterPoint.appendChild(divResumeorder);
 
 const cardDiv = document.createElement('div');
-cardDiv.classList.add('card', 'my-4', 'mx-auto');
+cardDiv.classList.add('card', 'rounded', 'my-4', 'mx-auto');
 divResumeorder.appendChild(cardDiv);
 
 const resumeOrder = document.createElement('h2');
@@ -26,7 +34,7 @@ cardDiv.appendChild(resumeOrder);
 
 //Création card-body et contenu:
 const cardBodyDiv = document.createElement('div');
-cardBodyDiv.classList.add('card-body', 'bg-light');
+cardBodyDiv.classList.add('card-body', 'rounded', 'bg-light');
 cardDiv.appendChild(cardBodyDiv);
 
 const numberOrderDiv = document.createElement('div');
@@ -45,8 +53,6 @@ numberOrder.setAttribute('style', 'white-space: pre;');
 numberOrder.textContent = '\r\n xxxx----xxxxx';
 numberOrderTitle.appendChild(numberOrder);
 
-
-
 const titleTableDiv = document.createElement('div');
 cardBodyDiv.appendChild(titleTableDiv);
 
@@ -60,17 +66,22 @@ const ulTable = document.createElement('ul');
 ulTable.classList.add('list-group', 'list-group-flush')
 cardBodyDiv.appendChild(ulTable);
 
-const liTable = document.createElement('li');
-liTable.classList.add('list-group-item', 'justify-content-between', 'ml-1', 'd-flex');
-liTable.textContent = 'Dining Table';
-ulTable.appendChild(liTable);
+//Nom & prix pr chaque article du panier:
+for (i in cart) {
+    const liTable = document.createElement('li');
+    liTable.classList.add('list-group-item', 'justify-content-between', 'ml-1', 'd-flex');
+    liTable.textContent = cart[i].cartQuantity + ' \r\n' + cart[i].cartName;
+    ulTable.appendChild(liTable);
 
-const liSpan = document.createElement('span');
-liSpan.textContent = 1099 + ' €';
-liTable.appendChild(liSpan);
+    const liSpan = document.createElement('span');
+    liSpan.textContent = cart[i].cartPrice * cart[i].cartQuantity / 100 + ' €';
+    liTable.appendChild(liSpan);
+
+    totalAmmountCart += cart[i].cartPrice / 100;
+}
 
 const liTable1 = document.createElement('li');
-liTable1.classList.add('list-group-item', 'justify-content-between', 'ml-1', 'd-flex');
+liTable1.classList.add('list-group-item', 'text-muted', 'justify-content-between', 'ml-1', 'd-flex');
 liTable1.textContent = 'Frais de port';
 ulTable.appendChild(liTable1);
 
@@ -85,7 +96,7 @@ ulTable.appendChild(liTable2);
 
 const liSpan2 = document.createElement('span');
 liSpan2.classList.add('font-weight-bold');
-liSpan2.textContent = 1099 + ' €';
+liSpan2.textContent += totalAmmountCart + ' €';
 liTable2.appendChild(liSpan2);
 
 
@@ -100,4 +111,27 @@ coordonneesTitle.classList.add('text-left', 'ml-1');
 coordonneesTitle.style.fontSize = '1.25rem';
 coordonneesTitle.textContent = 'Vos coordonnées:';
 coordonneesDiv.appendChild(coordonneesTitle)
+
+//Paragraphes contenant valeurs input user:
+const pNameFirstName = document.createElement('p');
+pNameFirstName.classList.add('mx-3', 'mb-0', 'text-left', 'mt-2');
+pNameFirstName.textContent = contact.lastName + ' ' + contact.firstName;
+cardBodyDiv.appendChild(pNameFirstName);
+
+const pAddress = document.createElement('p');
+pAddress.classList.add('mx-3', 'mb-0', 'text-left', 'mt-n1');
+pAddress.textContent = contact.address;
+cardBodyDiv.appendChild(pAddress);
+
+const pCpCity = document.createElement('p');
+pCpCity.classList.add('mx-3', 'mb-0', 'text-left', 'mt-n1');
+pCpCity.textContent = contact.cp + ' ' + contact.city;
+cardBodyDiv.appendChild(pCpCity);
+
+const pMail = document.createElement('p');
+pMail.classList.add('mx-3', 'mb-0', 'text-left', 'mt-3');
+pMail.textContent = contact.email;
+cardBodyDiv.appendChild(pMail);
+
+
 
