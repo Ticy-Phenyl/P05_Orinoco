@@ -1,0 +1,33 @@
+{
+  "name": "orinoco-backend",
+  "version": "1.0.0",
+  "description": "Project 5",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.18.3",
+    "brace-expansion": "^2.0.1",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "latest": "^0.2.0",
+    "mongoose": "^5.12.3",
+    "mongoose-unique-validator": "^2.0.2",
+    "mongoose-update-if-current": "^1.4.0",
+    "taskkill": "^3.1.0",
+    "uuid": "^3.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenClassrooms-Student-Center/JWDP5.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenClassrooms-Student-Center/JWDP5/issues"
+  },
+  "homepage": "https://github.com/OpenClassrooms-Student-Center/JWDP5#readme"
+}
