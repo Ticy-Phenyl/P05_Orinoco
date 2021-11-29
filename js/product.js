@@ -100,18 +100,18 @@ fetch("http://localhost:3000/api/furniture/" + productId)
                 } else {
                     let cart = JSON.parse(localStorage.getItem('cart'));
 
-                    let cartId = productId;
-                    let cartName = productName;
-                    let cartImage = productImage;
-                    let cartPrice = productPrice;
-                    let cartVarnish = lastSelect;
-                    let cartQuantity = 1;
-                    let cartDescription = productDescription;
-                    let index = cart.findIndex(newitem => newitem.cartId === cartId);
+                    let _id = productId;
+                    let name = productName;
+                    let imageUrl = productImage;
+                    let price = productPrice;
+                    let varnish = lastSelect;
+                    let quantity = 1;
+                    let description = productDescription;
+                    let index = cart.findIndex(newitem => newitem._id === _id);
                     if (index !== -1) {
-                        cart[index].cartQuantity++; //Augmente seulement la qté
+                        cart[index].quantity++; //Augmente seulement la qté
                     } else {
-                        cart.push({ cartId, cartName, cartImage, cartPrice, cartVarnish, cartQuantity, cartDescription }); //Si non existant ajoute item au localStorage
+                        cart.push({ _id, name, imageUrl, price, varnish, quantity, description }); //Si non existant ajoute item au localStorage
                     }
 
                     localStorage.setItem('cart', JSON.stringify(cart));
@@ -127,4 +127,3 @@ fetch("http://localhost:3000/api/furniture/" + productId)
         alert("Tentative de reconnexion.....");
         setTimeout(function () { document.location.reload() }, 1000);
     });
-

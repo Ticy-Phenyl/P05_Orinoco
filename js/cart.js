@@ -52,8 +52,8 @@ for (let i in cart) {
 
   const imageArticle = document.createElement('img');
   imageArticle.classList.add('float-left', 'rounded', 'mt-4', 'w-75');
-  imageArticle.setAttribute('alt', cart[i].cartName);
-  imageArticle.src = cart[i].cartImage;
+  imageArticle.setAttribute('alt', cart[i].name);
+  imageArticle.src = cart[i].imageUrl;
   divImage.appendChild(imageArticle);
 
   //Nom & varnish article:
@@ -63,12 +63,12 @@ for (let i in cart) {
 
   const nameArticle = document.createElement('h4');
   nameArticle.classList.add('my-4', 'text-left');
-  nameArticle.textContent = cart[i].cartName;
+  nameArticle.textContent = cart[i].name;
   divName.appendChild(nameArticle);
 
   const varnishArticle = document.createElement('p');
   varnishArticle.classList.add('text-muted', 'text-left', 'mb-5');
-  varnishArticle.textContent = 'Vernis sélectionné: ' + cart[i].cartVarnish;
+  varnishArticle.textContent = 'Vernis sélectionné: ' + cart[i].varnish;
   divName.appendChild(varnishArticle);
 
   const divQtyetPrice = document.createElement('div');
@@ -85,10 +85,10 @@ for (let i in cart) {
 
   const quantitySelected = document.createElement('span');
   quantitySelected.classList.add('text-center');
-  quantitySelected.textContent = 'Quantité:  \xa0 ' + cart[i].cartQuantity;
+  quantitySelected.textContent = 'Quantité:  \xa0 ' + cart[i].quantity;
   quantitySelected.style.fontSize = '1.5rem';
   quantitySelected.style.border = 'none';
-  quantitySelected.value = cart[i].cartQuantity;
+  quantitySelected.value = cart[i].quantity;
   quantityDiv.appendChild(quantitySelected);
 
   const quantityDecrease = document.createElement('i');
@@ -98,7 +98,7 @@ for (let i in cart) {
   quantitySelected.appendChild(quantityDecrease);
   quantityDecrease.addEventListener('click', () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
-    cart[i].cartQuantity--;
+    cart[i].quantity--;
     localStorage.setItem('cart', JSON.stringify(cart))
   });
 
@@ -109,23 +109,23 @@ for (let i in cart) {
   quantityDiv.appendChild(quantityIncrease);
   quantityIncrease.addEventListener('click', () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
-    cart[i].cartQuantity++;
+    cart[i].quantity++;
     localStorage.setItem('cart', JSON.stringify(cart))
   });
 
   //Prix article
   const priceArticle = document.createElement('p');
-  priceArticle.textContent = cart[i].cartPrice / 100 + ' €';
+  priceArticle.textContent = cart[i].price / 100 + ' €';
   priceArticle.classList.add('text-right', 'my-0', 'justify-space-between');
   priceArticle.style.fontSize = '1.5rem';
   quantityDiv.appendChild(priceArticle);
 
   //Montant total des articles du panier:
-  articleNumber = cart[i].cartQuantity;
-  totalAmmountCart += cart[i].cartPrice * articleNumber;
+  articleNumber = cart[i].quantity;
+  totalAmmountCart += cart[i].price * articleNumber;
 
   //Conditions si qté = 0:
-  if (cart[i].cartQuantity === 0) {
+  if (cart[i].quantity === 0) {
     priceArticle.textContent = 0 + " €";
     quantityDecrease.remove();
   }
@@ -306,7 +306,7 @@ buttonOk.addEventListener('click', () => {
 //Bouton validation formulaire:
 const buttonCmd = document.createElement('a');
 buttonCmd.classList.add('btn-success', 'text-white', 'rounded', 'text-center', 'p-2');
-buttonCmd.href = 'orderSent.html';
+//buttonCmd.href = 'orderSent.html';
 buttonCmd.textContent = 'Validez votre commande';
 coordonneesBody.appendChild(buttonCmd);
 
@@ -314,8 +314,7 @@ coordonneesBody.appendChild(buttonCmd);
 
 //------------ Stockage données formulaire --------------
 
-let products = [];
-let contact;
+
 
 //Vérification et récupération des input:
 
@@ -327,68 +326,49 @@ buttonCmd.addEventListener('click', () => {
   let maskCP = /\d*\.?\d+/;
 
   //Si RegEx ok:
-  if ((maskMail.test(yourMail.value) === true) && (maskNameAndfirstName.test(yourName.value, yourFirstname.value) === true) && (maskAdressAndCity.test(yourAddress.value, yourCity.value) === true) && (maskCP.test(yourPostalCode.value) === true)) {
+  if ((maskMail.test(yourMail.value) === false) && (maskNameAndfirstName.test(yourName.value, yourFirstname.value) === false) && (maskAdressAndCity.test(yourAddress.value, yourCity.value) === false) && (maskCP.test(yourPostalCode.value) === false)) {
+    alert("Merci de compléter les champs")
+  } else {
+
+    let product = [];
+    //Articles in cart:
+    product.push(cart);
+
 
     //Variables user input:
-    contact = {
-      firstName: yourFirstname.value,
-      lastName: yourName.value,
-      address: yourAddress.value,
-      cp: yourPostalCode.value,
-      city: yourCity.value,
-      email: yourMail.value,
+    const cmde = {
+      contact: {
+        firstName: yourFirstname.value,
+        lastName: yourName.value,
+        address: yourAddress.value,
+        city: yourCity.value,
+        email: yourMail.value,
+      },
+      products: product
     };
-    console.log(contact);
+    console.log(cmde);
 
-    //Articles in cart:
-    for (let i in cart) {
-      products.push(cart[i].productId);
+    //Headers requête:
+    const options = {
+      method: "POST",
+      body: JSON.stringify(cmde),
+      headers: { "Content-Type": "application/json" },
     };
 
-    contact.push;
-    localStorage.setItem('userContact', JSON.stringify(contact));
 
-    console.log(localStorage);
+    // Envoi de la requête et stockage items pr conf cmde:
+    fetch("http://localhost:3000/api/furniture/order", options)
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.clear();
+        console.log(data)
+        localStorage.setItem("orderId", data.orderId);
+        localStorage.setItem("total", totalAmmountCart / 100);
 
-  }
-
-
-  //LocalStorage contenant datas input et contenu panier:
-  let send = {
-    contact,
-    products,
-    totalAmmountCart
-  }
-  console.log(send);
-
-  //Envoi à l'api:
-  const post = async function (data) {
-    try {
-      /*Execution de la requête GET*/
-      let response = await fetch('http://localhost:3000/api/furniture/order', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        buttonCmd.href = 'orderSent.html';
+      })
+      .catch((error) => {
+        alert("Erreur : " + error);
       });
-      if (response.ok) {
-
-        let data = await response.json();
-        console.log(data.orderId);
-        localStorage.setItem("responseOrder", data.orderId);
-        window.location = "orderSent.html";
-        localStorage.removeItem("cart");
-
-      } else {
-        console.error('Retour du serveur : ', response.status);
-        alert('Erreur : ' + response.status);
-      }
-    } catch (error) {
-      alert("Erreur : " + error);
-    }
-  };
-  post(send);
-
+  }
 });
-
