@@ -51,7 +51,6 @@ exports.orderFurniture = (req, res, next) => {
     !req.body.contact.firstName ||
     !req.body.contact.lastName ||
     !req.body.contact.address ||
-    !req.body.contact.cp ||
     !req.body.contact.city ||
     !req.body.contact.email ||
     !req.body.products) {
