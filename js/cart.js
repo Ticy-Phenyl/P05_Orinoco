@@ -106,7 +106,7 @@ for (let i in cart) {
   quantityIncrease.classList.add('btn', 'text-left');
   quantityIncrease.setAttribute('onclick', 'window.location.reload();');
   quantityIncrease.innerHTML = `<i class="fas fa-plus"></i>`;
-  quantityDiv.appendChild(quantityIncrease);
+  quantitySelected.appendChild(quantityIncrease);
   quantityIncrease.addEventListener('click', () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
     cart[i].quantity++;

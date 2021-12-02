@@ -107,14 +107,14 @@ fetch("http://localhost:3000/api/furniture/" + productId)
                     let varnish = lastSelect;
                     let quantity = 1;
                     let description = productDescription;
-                    let index = cart.findIndex(newitem => newitem._id === _id);
+                    let index = cart.findIndex(newItem => newItem._id === _id);
                     if (index !== -1) {
                         cart[index].quantity++; //Augmente seulement la qté
                     } else {
                         cart.push({ _id, name, imageUrl, price, varnish, quantity, description }); //Si non existant ajoute item au localStorage
                     }
 
-                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem("cart", JSON.stringify(cart));
 
                 }
 

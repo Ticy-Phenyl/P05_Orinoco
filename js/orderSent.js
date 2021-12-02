@@ -1,13 +1,15 @@
 console.log(localStorage);
-let cart = JSON.parse(localStorage.getItem('cart'));
+let cart = localStorage.cart;
+console.log(cart);
 let contact = JSON.parse(localStorage.getItem('userContact'));
-let orderId = JSON.parse(localStorage.getItem('orderId'));
+let orderId = localStorage.orderId;
+console.log(orderId);
 let i = 0;
 let articleNumber = 0;
 articleNumber += cart[i].cartQuantity;
-let totalAmmountCart = JSON.parse(localStorage.getItem('totalAmmountCart'));
+let totalAmmountCart = 0;
 
-console.log(JSON.parse(localStorage.getItem('orderId')));
+
 
 //Contenu titre page:
 const thanksTitle = document.getElementById('title');
@@ -50,7 +52,7 @@ numberOrderDiv.appendChild(numberOrderTitle);
 const numberOrder = document.createElement('span');
 numberOrder.classList.add('ml-1');
 numberOrder.setAttribute('style', 'white-space: pre;');
-numberOrder.textContent = '\r\n xxxx----xxxxx';
+numberOrder.textContent = '\r\n' + orderId;
 numberOrderTitle.appendChild(numberOrder);
 
 const titleTableDiv = document.createElement('div');
@@ -132,6 +134,8 @@ const pMail = document.createElement('p');
 pMail.classList.add('mx-3', 'mb-0', 'text-left', 'mt-3');
 pMail.textContent = contact.email;
 cardBodyDiv.appendChild(pMail);
+
+localStorage.clear()
 
 
 
