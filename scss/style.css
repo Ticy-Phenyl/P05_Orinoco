@@ -10853,8 +10853,17 @@ h2 {
   font-size: 1.25rem;
 }
 
+h2 a {
+  font-size: 2rem;
+}
+
 h3 {
   font-size: 1.25rem;
+  word-break: break-word;
+}
+
+#numberOrder {
+  word-break: break-word;
 }
 
 h5 {
@@ -10912,6 +10921,7 @@ p,
   border: 0.6px solid #6c757d;
   margin: 15px;
   border-radius: 9px;
+  cursor: pointer;
 }
 
 input::-webkit-inner-spin-button,
@@ -10973,13 +10983,13 @@ nav img {
   }
   .sr-only {
     display: contents;
-    color: #FFFFFF;
+    color: #fff;
   }
 }
 
 @media only screen and (max-width: 800px) {
   h1 {
-    font-size: 1.7rem;
+    font-size: 6vw;
   }
   #dscrptnSelected {
     font-size: 1.3rem;

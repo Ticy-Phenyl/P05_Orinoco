@@ -14,10 +14,19 @@ h2 {
     color: $black;
     text-align: center;
     font-size: 1.25rem;
+
+    a {
+        font-size: 2rem;
+    }
 }
 
 h3 {
     font-size: 1.25rem;
+    word-break: break-word;
+}
+
+#numberOrder {
+    word-break: break-word;
 }
 
 h5 {
@@ -69,6 +78,7 @@ p,
     border: 0.6px solid $secondary;
     margin: 15px;
     border-radius: 9px;
+    cursor: pointer;
 }
 
 input::-webkit-inner-spin-button,
@@ -121,14 +131,14 @@ nav {
 
     .sr-only {
         display: contents;
-        color: #FFFFFF;
+        color: $white;
     }
 }
 
 
 @media only screen and (max-width: 800px) {
     h1 {
-        font-size: 1.7rem;
+        font-size: 6vw;
     }
 
     #dscrptnSelected {
