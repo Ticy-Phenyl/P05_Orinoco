@@ -25,17 +25,24 @@ const titleCartDiv = document.createElement('h2');
 titleCartDiv.classList.add('mb-1', 'text-center');
 
 //H2 selon si articles dans le panier: 
-if (cart.length === 0) {
-  titleCartDiv.innerHTML = '<a href="index.html">Ajoutez des articles</a>';
-  titleCartDiv.classList.add('mx-auto');
+/*if (cart.length === 0) {
+ 
+  
 } else {
   titleCartDiv.textContent = 'Articles dans votre panier';
-}
+}*/
 resumeCart.appendChild(titleCartDiv);
 
 //Variable montant total panier:
 let totalAmmountCart = 0;
-let articleNumber = 0;
+let articleNumber = 1;
+let article;
+let articlePrice;
+//let tableau = [];
+let ttotal;
+let montantParArticle = [];
+let totalArticle;
+let totttal;
 
 // -------- Contenu du panier ----------
 //Div contenant les articles:
@@ -45,6 +52,16 @@ resumeCart.appendChild(cartDiv);
 
 //Articles: 
 for (let i in cart) {
+
+  article = cart[i];
+  articlePrice = cart[i].price;
+  totalArticle = cart[i].price * cart[i].quantity;
+
+  //Div article:
+  const divArticle = document.createElement('div');
+  cartDiv.appendChild(divArticle);
+
+
   //Image article:
   const divImage = document.createElement('div');
   divImage.classList.add('col-md-4', 'col-lg-3', 'col-xl-3', 'border-top', 'mt-4', 'px-0');
@@ -52,28 +69,35 @@ for (let i in cart) {
 
   const imageArticle = document.createElement('img');
   imageArticle.classList.add('float-left', 'rounded', 'mt-4', 'w-75');
-  imageArticle.setAttribute('alt', cart[i].name);
-  imageArticle.src = cart[i].imageUrl;
+  imageArticle.setAttribute('alt', article.name);
+  imageArticle.src = article.imageUrl;
   divImage.appendChild(imageArticle);
 
-  //Nom & varnish article:
+
+  //Nom, varnish et btn suppression article:
   const divName = document.createElement('div');
   divName.classList.add('col-md-7', 'col-lg-9', 'col-xl-9', 'mt-4', 'border-top', 'borderTopGray');
   cartDiv.appendChild(divName);
 
+  const removeArticle = document.createElement('button');
+  removeArticle.classList.add('close', 'float-right', 'mt-2');
+  removeArticle.innerHTML = '<i class="fas fa-trash-alt"></i>';
+  divName.appendChild(removeArticle);
+
   const nameArticle = document.createElement('h4');
   nameArticle.classList.add('my-4', 'text-left');
-  nameArticle.textContent = cart[i].name;
+  nameArticle.textContent = article.name;
   divName.appendChild(nameArticle);
 
   const varnishArticle = document.createElement('p');
   varnishArticle.classList.add('text-muted', 'text-left', 'mb-5');
-  varnishArticle.textContent = 'Vernis sélectionné: ' + cart[i].varnish;
+  varnishArticle.textContent = 'Vernis sélectionné: ' + article.varnish;
   divName.appendChild(varnishArticle);
 
   const divQtyetPrice = document.createElement('div');
   divQtyetPrice.classList.add('border-primary')
   divName.appendChild(divQtyetPrice);
+
 
   //Boutons quantité article:
   const quantityDiv = document.createElement('div');
@@ -85,10 +109,10 @@ for (let i in cart) {
 
   const quantitySelected = document.createElement('span');
   quantitySelected.classList.add('text-center');
-  quantitySelected.textContent = 'Quantité:  \xa0 ' + cart[i].quantity;
+  quantitySelected.textContent = 'Quantité:  \xa0 ' + article.quantity;
   quantitySelected.style.fontSize = '1.5rem';
   quantitySelected.style.border = 'none';
-  quantitySelected.value = cart[i].quantity;
+  quantitySelected.value = article.quantity;
   quantityDiv.appendChild(quantitySelected);
 
   const quantityDecrease = document.createElement('i');
@@ -113,24 +137,103 @@ for (let i in cart) {
     localStorage.setItem('cart', JSON.stringify(cart))
   });
 
+
   //Prix article
   const priceArticle = document.createElement('p');
-  priceArticle.textContent = cart[i].price / 100 + ' €';
+  priceArticle.textContent = article.price / 100 + ' €';
   priceArticle.classList.add('text-right', 'my-0', 'justify-space-between');
   priceArticle.style.fontSize = '1.5rem';
   quantityDiv.appendChild(priceArticle);
 
+
+
+
+
   //Montant total des articles du panier:
-  articleNumber = cart[i].quantity;
-  totalAmmountCart += cart[i].price * articleNumber;
+  articleNumber = article.quantity;
+  totalAmmountCart += articlePrice * articleNumber;
+
+
+  console.log(articlePrice / 100);
+  console.log(articleNumber);
+  console.log(totalArticle / 100);
+  console.log(totalAmmountCart / 100);
+
 
   //Conditions si qté = 0:
-  if (cart[i].quantity === 0) {
+  if (article.quantity == 0) {
     priceArticle.textContent = 0 + " €";
     quantityDecrease.remove();
   }
 
+  //Suppression article au clic:
+  removeArticle.addEventListener('click', () => {
+    divImage.remove();
+    divName.remove();
+
+    let cart = JSON.parse(localStorage.getItem('cart'));
+
+
+
+    let index = cart.findIndex(newItem => newItem.price === cart[i].price);
+    console.log(cart[index]);
+
+    if (index !== -1) {
+      localStorage.removeItem(cart[i]);
+    }
+
+
+
+
+
+
+
+
+    totttal = totalAmmountCart - cart[i].price;
+
+    console.log(totalAmmountCart / 100);
+    console.log(cart[i].price / 100);
+    console.log(totttal / 100);
+
+
+    console.log(cart[i]);
+
+
+
+
+
+
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    console.log(cart);
+
+
+
+
+
+  });
+
+  console.log(cart);
+
+
+
 }
+
+/*let totall = [];
+
+for (let m = 0; m < cart.length; m++) {
+  totalAmmountCart = cart[m].price;
+
+  totall.push(totalAmmountCart);
+}
+
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+console.log(reducer);
+const prixFinal = totall.reduce(reducer, 0);
+console.log(prixFinal / 100);
+
+*/
+
 
 //Total du panier: 
 const totalCartDiv = document.createElement('ul');
@@ -154,10 +257,7 @@ buttonOk.classList.add('btn-success', 'text-white', 'rounded', 'offset-10', 'p-2
 buttonOk.setAttribute('id', 'validBtn');
 buttonOk.textContent = 'Validez votre panier';
 cartDiv.appendChild(buttonOk);
-if (cart.length === 0) {
-  buttonOk.style.display = 'none';
-  cartDiv.hidden = true;
-}
+
 
 
 // --------- Formulaire validation commande ---------
@@ -184,11 +284,15 @@ const coordonneesBody = document.createElement('div');
 coordonneesBody.classList.add('card-body');
 cardDiv.appendChild(coordonneesBody);
 
+const formBody = document.createElement('form');
+coordonneesBody.appendChild(formBody);
+
 
 //Partie pour le mail:
+const maskMail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const formDiv2 = document.createElement('div');
 formDiv2.classList.add('form-group', 'text-left');
-coordonneesBody.appendChild(formDiv2);
+formBody.appendChild(formDiv2);
 
 const votreMail = document.createElement('label')
 votreMail.htmlFor = 'mail';
@@ -203,11 +307,26 @@ yourMail.placeholder = 'Lightning@chocolatelab.jp';
 yourMail.required = true;
 votreMail.appendChild(yourMail);
 
+//Si mail incorrect:
+const correctMail = document.createElement('p');
+correctMail.classList.add('text-danger');
+correctMail.style.visibility = 'hidden';
+correctMail.textContent = 'Merci de renseigner votre mail';
+votreMail.appendChild(correctMail);
+yourMail.addEventListener('focusout', () => {
+  if ((maskMail.test(yourMail.value) != true) || (yourMail.value === '')) {
+    correctMail.style.visibility = 'visible';
+  } else {
+    correctMail.style.visibility = 'hidden';
+  }
+});
+
 
 //Partie pour le nom de famille:
+const maskNameAndfirstName = /^[A-Za-z, \-, ]+$/;
 const formDiv0 = document.createElement('div');
 formDiv0.classList.add('form-group', 'text-left');
-coordonneesBody.appendChild(formDiv0);
+formBody.appendChild(formDiv0);
 
 const votreNom = document.createElement('label')
 votreNom.htmlFor = 'lastName';
@@ -222,6 +341,20 @@ yourName.type = 'text';
 yourName.placeholder = 'Entrez votre nom';
 yourName.required = true;
 votreNom.appendChild(yourName);
+
+//Si nom incorrect:
+const correctName = document.createElement('p');
+correctName.classList.add('text-danger');
+correctName.style.visibility = 'hidden';
+correctName.textContent = 'Merci de renseigner votre nom';
+votreNom.appendChild(correctName);
+yourName.addEventListener('focusout', () => {
+  if ((maskNameAndfirstName.test(yourName.value) != true) || (yourName.value === '')) {
+    correctName.style.visibility = 'visible';
+  } else {
+    correctName.style.visibility = 'hidden';
+  }
+});
 
 
 //Partie pour le prénom:
@@ -240,11 +373,26 @@ yourFirstname.placeholder = 'Entrez votre prénom';
 yourFirstname.required = true;
 votrePrenom.appendChild(yourFirstname);
 
+//Si prénom incorrect:
+const correctFirstName = document.createElement('p');
+correctFirstName.classList.add('text-danger');
+correctFirstName.style.visibility = 'hidden';
+correctFirstName.textContent = 'Merci de renseigner votre prénom';
+votrePrenom.appendChild(correctFirstName);
+yourFirstname.addEventListener('focusout', () => {
+  if ((maskNameAndfirstName.test(yourFirstname.value) != true) || (yourFirstname.value === '')) {
+    correctFirstName.style.visibility = 'visible';
+  } else {
+    correctFirstName.style.visibility = 'hidden';
+  }
+})
+
 
 //Partie pour l'adresse:
+const maskAdressAndCity = /^[0-9a-zA-Z, ]+$/;
 const formDiv3 = document.createElement('div');
 formDiv3.classList.add('form-group', 'text-left');
-coordonneesBody.appendChild(formDiv3);
+formBody.appendChild(formDiv3);
 
 const votreAdresse = document.createElement('label');
 votreAdresse.htmlFor = 'adresse';
@@ -259,11 +407,26 @@ yourAddress.placeholder = '17, rue de la Gloire';
 yourAddress.required = true;
 votreAdresse.appendChild(yourAddress);
 
+//Si adresse incorrecte:
+const correctedAddress = document.createElement('p');
+correctedAddress.classList.add('text-danger');
+correctedAddress.style.visibility = 'hidden';
+correctedAddress.textContent = 'Merci de renseigner votre adresse';
+votreAdresse.appendChild(correctedAddress);
+yourAddress.addEventListener('focusout', () => {
+  if ((maskAdressAndCity.test(yourAddress.value) != true) || (yourAddress.value === '')) {
+    correctedAddress.style.visibility = 'visible';
+  } else {
+    correctedAddress.style.visibility = 'hidden';
+  }
+})
+
 
 //Partie pour le code postal:
+let maskCP = /\d*\.?\d+/;
 const formDiv4 = document.createElement('div');
 formDiv4.classList.add('form-group', 'text-left');
-coordonneesBody.appendChild(formDiv4);
+formBody.appendChild(formDiv4);
 
 const votreCodePostal = document.createElement('label');
 votreCodePostal.htmlFor = 'code Postal';
@@ -278,6 +441,20 @@ yourPostalCode.minLength = 5;
 yourPostalCode.maxLength = 5;
 yourPostalCode.required = true;
 votreCodePostal.appendChild(yourPostalCode);
+
+//Si CP incorrect:
+const correctCP = document.createElement('p');
+correctCP.classList.add('text-danger');
+correctCP.style.visibility = 'hidden';
+correctCP.textContent = 'Merci de renseigner votre code postal';
+votreCodePostal.appendChild(correctCP);
+yourPostalCode.addEventListener('focusout', () => {
+  if ((maskCP.test(yourPostalCode.value) != true) || (yourPostalCode.value === '')) {
+    correctCP.style.visibility = 'visible';
+  } else {
+    correctCP.style.visibility = 'hidden';
+  }
+})
 
 
 //Partie pour la ville:
@@ -295,6 +472,20 @@ yourCity.placeholder = 'Ville';
 yourCity.required = true;
 votreVille.appendChild(yourCity);
 
+//Si ville incorrecte:
+const correctCity = document.createElement('p');
+correctCity.classList.add('text-danger');
+correctCity.style.visibility = 'hidden';
+correctCity.textContent = 'Merci de renseigner votre adresse';
+votreVille.appendChild(correctCity);
+yourCity.addEventListener('focusout', () => {
+  if ((maskAdressAndCity.test(yourCity.value) != true) || (yourCity.value === '')) {
+    correctCity.style.visibility = 'visible';
+  } else {
+    correctCity.style.visibility = 'hidden';
+  }
+})
+
 
 //Apparition formulaire coordonnées onclick:
 buttonOk.addEventListener('click', () => {
@@ -305,8 +496,8 @@ buttonOk.addEventListener('click', () => {
 
 //Bouton validation formulaire:
 const buttonCmd = document.createElement('a');
-buttonCmd.classList.add('btn-success', 'text-white', 'rounded', 'text-center', 'p-2');
-//buttonCmd.href = 'orderSent.html';
+buttonCmd.classList.add('btn', 'btn-success', 'text-white', 'rounded', 'text-center', 'p-2');
+
 buttonCmd.textContent = 'Validez votre commande';
 coordonneesBody.appendChild(buttonCmd);
 
@@ -319,56 +510,48 @@ coordonneesBody.appendChild(buttonCmd);
 //Vérification et récupération des input:
 
 buttonCmd.addEventListener('click', () => {
-  //RegEx input :
-  let maskMail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  let maskNameAndfirstName = /^[A-Za-z, \-, ]+$/;
-  let maskAdressAndCity = /^[0-9a-zA-Z, ]+$/;
-  let maskCP = /\d*\.?\d+/;
 
-  //Si RegEx ok:
-  if ((maskMail.test(yourMail.value) === false) && (maskNameAndfirstName.test(yourName.value, yourFirstname.value) === false) && (maskAdressAndCity.test(yourAddress.value, yourCity.value) === false) && (maskCP.test(yourPostalCode.value) === false)) {
-    alert("Merci de compléter les champs")
-  } else {
-
-    let product = [];
-    //Articles in cart:
-    product.push(cart);
+  let product = [];
+  //Articles in cart:
+  product.push(cart);
 
 
-    //Variables user input:
-    const cmde = {
-      contact: {
-        firstName: yourFirstname.value,
-        lastName: yourName.value,
-        address: yourAddress.value,
-        city: yourCity.value,
-        email: yourMail.value,
-      },
-      products: product
-    };
-    console.log(cmde);
+  //Variables user input:
+  const cmde = {
+    contact: {
+      firstName: yourFirstname.value,
+      lastName: yourName.value,
+      address: yourAddress.value,
+      city: yourCity.value,
+      email: yourMail.value,
+    },
+    products: product
+  };
+  console.log(cmde);
 
-    //Headers requête:
-    const options = {
-      method: "POST",
-      body: JSON.stringify(cmde),
-      headers: { "Content-Type": "application/json" },
-    };
+  //Headers requête:
+  const options = {
+    method: "POST",
+    body: JSON.stringify(cmde),
+    headers: { "Content-Type": "application/json" },
+  };
 
 
-    // Envoi de la requête et stockage items pr conf cmde:
-    fetch("http://localhost:3000/api/furniture/order", options)
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.clear();
-        console.log(data)
-        localStorage.setItem("orderId", data.orderId);
-        localStorage.setItem("total", totalAmmountCart / 100);
+  // Envoi de la requête et stockage items pr conf cmde:
+  fetch("http://localhost:3000/api/furniture/order", options)
+    .then((response) => response.json())
+    .then((data) => {
+      localStorage.clear();
+      console.log(data)
+      localStorage.setItem("orderId", data.orderId);
+      localStorage.setItem("total", totalAmmountCart / 100);
 
-        buttonCmd.href = 'orderSent.html';
-      })
-      .catch((error) => {
-        alert("Erreur : " + error);
-      });
-  }
+      //OrderId présent ds url page confirmation:
+      buttonCmd.href = 'orderSent.html?id=' + data.orderId;
+      localStorage.removeItem("orderId");
+    })
+    .catch((error) => {
+      alert("Erreur : " + error);
+    });
+
 });

@@ -37,7 +37,7 @@ fetch("http://localhost:3000/api/furniture/" + productId)
     .then(datas => {
 
         //Définition title:
-        let productName = datas["name"];  // pt être remplacé par datas.name
+        let productName = datas.name;
         titleDiv.textContent = 'Personnalisez votre ' + productName + '.';
 
         //Si pas d'article sélectionné:
@@ -48,20 +48,20 @@ fetch("http://localhost:3000/api/furniture/" + productId)
         }
 
         //Définition de l'image: 
-        let productImage = datas["imageUrl"];
+        let productImage = datas.imageUrl;
         imageDiv.src = productImage;
-        imageDiv.setAttribute('alt', datas["name"]);
+        imageDiv.setAttribute('alt', datas.name);
 
         //Définition de la description:
-        let productDescription = datas["description"];
+        let productDescription = datas.description;
         descriptionDiv.textContent = 'Description: \r\n' + productDescription;
 
         //Définition du prix:
-        let productPrice = datas["price"];
+        let productPrice = datas.price;
         priceDiv.textContent = productPrice / 100 + ' €';
 
         //Définition varnish avec instruction for in: 
-        let productVarnish = datas["varnish"];
+        let productVarnish = datas.varnish;
         for (let i in productVarnish) {
             let newOption = document.createElement("option");
             newOption.setAttribute('value', productVarnish[i])
@@ -107,9 +107,13 @@ fetch("http://localhost:3000/api/furniture/" + productId)
                     let varnish = lastSelect;
                     let quantity = 1;
                     let description = productDescription;
+
+                    //Utilisation findIndex pr savoir si ajout cart ou juste ++:
                     let index = cart.findIndex(newItem => newItem._id === _id);
-                    if (index !== -1) {
-                        cart[index].quantity++; //Augmente seulement la qté
+                    let indexA = cart.findIndex(newItem => newItem.varnish === varnish);
+
+                    if ((index !== -1) && (indexA !== -1)) {
+                        cart[index].quantity++;//Augmente seulement la qté
                     } else {
                         cart.push({ _id, name, imageUrl, price, varnish, quantity, description }); //Si non existant ajoute item au localStorage
                     }

@@ -1,10 +1,14 @@
+//On log le localStorage pr s'assurer qu'il ne contient que le total: 
 console.log(localStorage);
 
-let total = localStorage.total;
-console.log(total);
+//Récupérer orderId ds URL:
+let searchParams = new URLSearchParams(window.location.search);
 
-let orderId = localStorage.orderId;
-console.log(orderId);
+let orderId = searchParams.get("id");
+
+//On récupère le total de la commande:
+let total = JSON.parse(localStorage.getItem('total'));
+console.log(total);
 
 //Contenu titre page:
 const thanksTitle = document.getElementById('title');
@@ -44,10 +48,10 @@ numberOrderTitle.classList.add('text-left', 'ml-1');
 numberOrderTitle.textContent = 'Votre numéro de commande:';
 numberOrderDiv.appendChild(numberOrderTitle);
 
-const numberOrder = document.createElement('span');
-numberOrder.classList.add('ml-1');
-numberOrder.setAttribute('style', 'white-space: pre');
-numberOrder.textContent = '\r\n' + orderId;
+const numberOrder = document.createElement('p');
+numberOrder.classList.add('mt-1');
+numberOrder.id = 'numberOrder';
+numberOrder.textContent = orderId;
 numberOrderTitle.appendChild(numberOrder);
 
 const titleTableDiv = document.createElement('div');
@@ -65,7 +69,7 @@ ammountOrder.setAttribute('style', 'white-space: pre');
 ammountOrder.textContent = '\r\n' + total + '€';
 titleTable.appendChild(ammountOrder);
 
-localStorage.clear()
+
 
 
 

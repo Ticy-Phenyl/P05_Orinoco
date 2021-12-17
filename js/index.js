@@ -1,6 +1,5 @@
 const furniture = document.getElementById('furnitures');
 
-
 //recupération des données de l'API
 fetch('http://localhost:3000/api/furniture')
 
@@ -8,8 +7,7 @@ fetch('http://localhost:3000/api/furniture')
     .then(donnees => {
 
         //Création card et style :
-        // retour à for i etc si foreach ko
-        for (let item = 0; item < donnees.length; item++) {
+        for (let i = 0; i < donnees.length; i++) {
 
             // Eléments card :
             let newProduct = document.createElement('div');
@@ -26,18 +24,18 @@ fetch('http://localhost:3000/api/furniture')
             newProduct.classList.add('col-12', 'col-lg-4', 'my-3');
             newCard.classList.add('card', 'shadow-lg');
             newImageUrl.classList.add('card-img-top', 'mb-2');
-            newImageUrl.setAttribute('alt', donnees[item].name);
-            newImageUrl.src = donnees[item].imageUrl;
+            newImageUrl.setAttribute('alt', donnees[i].name);
+            newImageUrl.src = donnees[i].imageUrl;
             newName.classList.add('card-title', 'text-center');
-            newName.textContent = donnees[item].name;
+            newName.textContent = donnees[i].name;
             newDescription.classList.add('card-text', 'text-center', 'px-2');
-            newDescription.textContent = donnees[item].description;
+            newDescription.textContent = donnees[i].description;
             newPrice.classList.add('text-center');
-            newPrice.textContent = donnees[item].price / 100 + ' €';
+            newPrice.textContent = donnees[i].price / 100 + ' €';
             newVarnish.classList.add('text-center');
-            newVarnish.textContent = 'Disponible en: \r\n' + donnees[item].varnish;
+            newVarnish.textContent = 'Disponible en: \r\n' + donnees[i].varnish;
             newBtn.classList.add('btn', 'btn-secondary', 'mx-4', 'text-white');
-            newBtn.href = "product.html?id=" + donnees[item]._id;
+            newBtn.href = "product.html?id=" + donnees[i]._id;
             newBtn.textContent = 'Personnalisez le produit';
 
             //Event au passage souris sur btn: 
