@@ -1,15 +1,17 @@
 # Orinoco #
 
-This is the back end server for Project 5 of the Junior Web Developer path.
+Projet 5 du parcours OC.
 
-### Prerequisites ###
+### Prérequis ###
 
-You will need to have Node and `npm` installed locally on your machine.
+Avoir Node et 'npm' installés sur la machine.
 
 ### Installation ###
 
-Clone this repo. From within the project folder, run `npm install`. You 
-can then run the server with `node server`. 
-The server should run on `localhost` with default port `3000`. If the
-server runs on another port for any reason, this is printed to the
-console when the server starts, e.g. `Listening on port 3001`.
+Cloner le repository. 
+
+Depuis la racine du projet, lancez 'nodemon server'. Le lancement se fera via le port '3000'.
+Si le serveur devait se lancer sur un autre port, cela sera notifié dans la console au lancement.
+
+Le lancement de la partie front-end se fera via l'extension 'Live Server' de VS Code ou équivalent.
+
