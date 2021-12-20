@@ -3,7 +3,7 @@ let searchParams = new URLSearchParams(window.location.search);
 
 //Récupérer id du produit:
 let productId = searchParams.get("id");
-
+console.log(productId);
 
 //Variables utilisées pour constituer la page + ajout class: 
 let productCard = document.getElementById("product");
@@ -13,7 +13,7 @@ let titleDiv = document.getElementById("productTitle");
 titleDiv.classList.add('text-center');
 
 let imageDiv = document.getElementById("imgSelected");
-imageDiv.classList.add('rounded', 'mx-3', 'my-3');
+imageDiv.classList.add('rounded', 'my-3', 'mx-auto', 'w-75');
 
 let descriptionDiv = document.getElementById("dscrptnSelected");
 descriptionDiv.classList.add('text-left', 'mx-2', 'mb-4');
@@ -33,11 +33,13 @@ cartDiv.href = 'cart.html';
 //Récupérer produit selon son id:
 fetch("http://localhost:3000/api/furniture/" + productId)
     //Passage de json à objet:
-    .then(datas => datas.json())
-    .then(datas => {
+    .then(product => product.json())
+    .then(product => {
+
+        console.log(product);
 
         //Définition title:
-        let productName = datas.name;
+        let productName = product.name;
         titleDiv.textContent = 'Personnalisez votre ' + productName + '.';
 
         //Si pas d'article sélectionné:
@@ -48,20 +50,20 @@ fetch("http://localhost:3000/api/furniture/" + productId)
         }
 
         //Définition de l'image: 
-        let productImage = datas.imageUrl;
+        let productImage = product.imageUrl;
         imageDiv.src = productImage;
-        imageDiv.setAttribute('alt', datas.name);
+        imageDiv.setAttribute('alt', product.name);
 
         //Définition de la description:
-        let productDescription = datas.description;
+        let productDescription = product.description;
         descriptionDiv.textContent = 'Description: \r\n' + productDescription;
 
         //Définition du prix:
-        let productPrice = datas.price;
+        let productPrice = product.price;
         priceDiv.textContent = productPrice / 100 + ' €';
 
         //Définition varnish avec instruction for in: 
-        let productVarnish = datas.varnish;
+        let productVarnish = product.varnish;
         for (let i in productVarnish) {
             let newOption = document.createElement("option");
             newOption.setAttribute('value', productVarnish[i])
@@ -92,42 +94,40 @@ fetch("http://localhost:3000/api/furniture/" + productId)
 
 
         // Fonction stockage localStorage si varnish ok: 
-        function setUpStorage() {
-            cartDiv.addEventListener('click', () => {
-                if (vrnshSelected.value == 'choisissez votre vernis') {
-                    cartDiv.removeAttribute('href');
-                    varnishDiv.classList.add('border-danger', 'text-danger');
+
+        cartDiv.addEventListener('click', () => {
+            if (vrnshSelected.value == 'choisissez votre vernis') {
+                cartDiv.removeAttribute('href');
+                varnishDiv.classList.add('border-danger', 'text-danger');
+            } else {
+                let cart = JSON.parse(localStorage.getItem('cart'));
+
+                let _id = productId;
+                let name = productName;
+                let imageUrl = productImage;
+                let price = productPrice;
+                let varnish = lastSelect;
+                let quantity = 1;
+                let description = productDescription;
+
+                //Utilisation findIndex pr savoir si ajout cart ou juste ++:
+                let index = cart.findIndex(newItem => newItem._id === _id);
+                let indexA = cart.findIndex(newItem => newItem.varnish === varnish);
+
+                if ((index !== -1) && (indexA !== -1)) {
+                    cart[index].quantity++;//Augmente seulement la qté
                 } else {
-                    let cart = JSON.parse(localStorage.getItem('cart'));
-
-                    let _id = productId;
-                    let name = productName;
-                    let imageUrl = productImage;
-                    let price = productPrice;
-                    let varnish = lastSelect;
-                    let quantity = 1;
-                    let description = productDescription;
-
-                    //Utilisation findIndex pr savoir si ajout cart ou juste ++:
-                    let index = cart.findIndex(newItem => newItem._id === _id);
-                    let indexA = cart.findIndex(newItem => newItem.varnish === varnish);
-
-                    if ((index !== -1) && (indexA !== -1)) {
-                        cart[index].quantity++;//Augmente seulement la qté
-                    } else {
-                        cart.push({ _id, name, imageUrl, price, varnish, quantity, description }); //Si non existant ajoute item au localStorage
-                    }
-
-                    localStorage.setItem("cart", JSON.stringify(cart));
-
+                    cart.push({ _id, name, imageUrl, price, varnish, quantity, description }); //Si non existant ajoute item au localStorage
                 }
 
-            })
-        }
-        setUpStorage();
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+            }
+
+        })
+
+
     })
     .catch(error => {
         console.log(error);
-        alert("Tentative de reconnexion.....");
-        setTimeout(function () { document.location.reload() }, 1000);
     });

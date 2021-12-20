@@ -9,53 +9,44 @@ console.log(cart);
 
 //Affichage contenu h1 #title :
 let titleDiv = document.getElementById('title');
-if (cart.length === 0) {
-  titleDiv.textContent = 'Votre panier est vide';
-} else if (cart.length === 1) {
-  titleDiv.textContent = 'Voici votre article :';
-} else {
-  titleDiv.textContent = 'Voici vos articles :';
-};
 
 //Création section panier où vont figurer les articles:
 const resumeCart = document.getElementById('resumeCart');
 resumeCart.classList.add('col-lg', 'mb-2', 'pt-4', 'ml-2');
-//"Titre" du panier:
-const titleCartDiv = document.createElement('h2');
-titleCartDiv.classList.add('mb-1', 'text-center');
 
-//H2 selon si articles dans le panier: 
-/*if (cart.length === 0) {
- 
-  
-} else {
-  titleCartDiv.textContent = 'Articles dans votre panier';
-}*/
-resumeCart.appendChild(titleCartDiv);
 
 //Variable montant total panier:
 let totalAmmountCart = 0;
 let articleNumber = 1;
 let article;
 let articlePrice;
-//let tableau = [];
-let ttotal;
+
 let montantParArticle = [];
 let totalArticle;
-let totttal;
+
+let lastItem;
 
 // -------- Contenu du panier ----------
 //Div contenant les articles:
 const cartDiv = document.createElement('div');
 cartDiv.classList.add('row', 'mb-4');
+if (cart.length === 0) {
+  titleDiv.textContent = 'Votre panier est vide';
+  const titleCartDiv = document.createElement('h2');
+  titleCartDiv.classList.add('mb-1', 'mx-auto');
+  titleCartDiv.innerHTML = '<a href="index.html">Voir nos articles disponibles</a>'
+  resumeCart.appendChild(titleCartDiv);
+  cartDiv.style.display = 'none';
+} else if (cart.length === 1) {
+  titleDiv.textContent = 'Voici votre article :';
+} else {
+  titleDiv.textContent = 'Voici vos articles :';
+};
 resumeCart.appendChild(cartDiv);
 
 //Articles: 
 for (let i in cart) {
 
-  article = cart[i];
-  articlePrice = cart[i].price;
-  totalArticle = cart[i].price * cart[i].quantity;
 
   //Div article:
   const divArticle = document.createElement('div');
@@ -69,8 +60,8 @@ for (let i in cart) {
 
   const imageArticle = document.createElement('img');
   imageArticle.classList.add('float-left', 'rounded', 'mt-4', 'w-75');
-  imageArticle.setAttribute('alt', article.name);
-  imageArticle.src = article.imageUrl;
+  imageArticle.setAttribute('alt', cart[i].name);
+  imageArticle.src = cart[i].imageUrl;
   divImage.appendChild(imageArticle);
 
 
@@ -86,12 +77,12 @@ for (let i in cart) {
 
   const nameArticle = document.createElement('h4');
   nameArticle.classList.add('my-4', 'text-left');
-  nameArticle.textContent = article.name;
+  nameArticle.textContent = cart[i].name;
   divName.appendChild(nameArticle);
 
   const varnishArticle = document.createElement('p');
   varnishArticle.classList.add('text-muted', 'text-left', 'mb-5');
-  varnishArticle.textContent = 'Vernis sélectionné: ' + article.varnish;
+  varnishArticle.textContent = 'Vernis sélectionné: ' + cart[i].varnish;
   divName.appendChild(varnishArticle);
 
   const divQtyetPrice = document.createElement('div');
@@ -109,10 +100,10 @@ for (let i in cart) {
 
   const quantitySelected = document.createElement('span');
   quantitySelected.classList.add('text-center');
-  quantitySelected.textContent = 'Quantité:  \xa0 ' + article.quantity;
+  quantitySelected.textContent = 'Quantité:  \xa0 ' + cart[i].quantity;
   quantitySelected.style.fontSize = '1.5rem';
   quantitySelected.style.border = 'none';
-  quantitySelected.value = article.quantity;
+  quantitySelected.value = cart[i].quantity;
   quantityDiv.appendChild(quantitySelected);
 
   const quantityDecrease = document.createElement('i');
@@ -123,6 +114,7 @@ for (let i in cart) {
   quantityDecrease.addEventListener('click', () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
     cart[i].quantity--;
+
     localStorage.setItem('cart', JSON.stringify(cart))
   });
 
@@ -134,13 +126,13 @@ for (let i in cart) {
   quantityIncrease.addEventListener('click', () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
     cart[i].quantity++;
-    localStorage.setItem('cart', JSON.stringify(cart))
+    localStorage.setItem('cart', JSON.stringify(cart));
   });
 
 
   //Prix article
   const priceArticle = document.createElement('p');
-  priceArticle.textContent = article.price / 100 + ' €';
+  priceArticle.textContent = cart[i].price / 100 + ' €';
   priceArticle.classList.add('text-right', 'my-0', 'justify-space-between');
   priceArticle.style.fontSize = '1.5rem';
   quantityDiv.appendChild(priceArticle);
@@ -150,21 +142,17 @@ for (let i in cart) {
 
 
   //Montant total des articles du panier:
-  articleNumber = article.quantity;
-  totalAmmountCart += articlePrice * articleNumber;
-
-
-  console.log(articlePrice / 100);
-  console.log(articleNumber);
-  console.log(totalArticle / 100);
-  console.log(totalAmmountCart / 100);
+  articleNumber = cart[i].quantity;
+  totalAmmountCart += cart[i].price * articleNumber;
 
 
   //Conditions si qté = 0:
-  if (article.quantity == 0) {
+  if (cart[i].quantity == 0) {
     priceArticle.textContent = 0 + " €";
     quantityDecrease.remove();
   }
+
+  console.log(totalAmmountCart / 100);
 
   //Suppression article au clic:
   removeArticle.addEventListener('click', () => {
@@ -173,66 +161,62 @@ for (let i in cart) {
 
     let cart = JSON.parse(localStorage.getItem('cart'));
 
-
-
-    let index = cart.findIndex(newItem => newItem.price === cart[i].price);
-    console.log(cart[index]);
-
-    if (index !== -1) {
-      localStorage.removeItem(cart[i]);
-    }
-
-
-
-
-
-
-
-
-    totttal = totalAmmountCart - cart[i].price;
-
-    console.log(totalAmmountCart / 100);
-    console.log(cart[i].price / 100);
-    console.log(totttal / 100);
-
-
-    console.log(cart[i]);
-
-
-
-
-
-
-
-    localStorage.setItem('cart', JSON.stringify(cart));
     console.log(cart);
 
 
 
+    let articleId = cart[i];
+    console.log(articleId);
+
+    totalAmmountCart -= (cart[i].price * cart[i].quantity);
+
+    cart.push(totalAmmountCart);
+    lastItem = cart.pop();
+    console.log(lastItem);
+
+
+    localStorage.setItem('lastItem', lastItem);
+    console.log(localStorage);
+
+
+    localStorage.removeItem(cart[i]);
+    console.log(localStorage);
+
+
+    if (totalAmmountCart === 0) {
+      titleDiv.textContent = 'Votre panier est vide';
+      cartDiv.classList.add('mx-auto');
+      totalCart.innerHTML = '<a href="index.html">Voir nos articles disponibles</a>'
+      ammountCart.style.display = 'none';
+      buttonOk.style.display = 'none';
+    }
+
+
+
+    console.log(cart[i].price / 100);
+    console.log(cart[i].quantity);
+    console.log(totalAmmountCart / 100);
+
+    cart.splice(i, 1);
+
+    console.log(localStorage);
+
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    location.reload();
 
 
   });
 
   console.log(cart);
 
-
-
 }
 
-/*let totall = [];
 
-for (let m = 0; m < cart.length; m++) {
-  totalAmmountCart = cart[m].price;
+let reverse = localStorage.getItem('lastItem');
 
-  totall.push(totalAmmountCart);
-}
-
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
-console.log(reducer);
-const prixFinal = totall.reduce(reducer, 0);
-console.log(prixFinal / 100);
-
-*/
+console.log(reverse / 100);
 
 
 //Total du panier: 

@@ -4,10 +4,12 @@ const furniture = document.getElementById('furnitures');
 fetch('http://localhost:3000/api/furniture')
 
     .then(response => response.json())
-    .then(donnees => {
+    .then(products => {
+
+        console.log(products);
 
         //Création card et style :
-        for (let i = 0; i < donnees.length; i++) {
+        for (let i = 0; i < products.length; i++) {
 
             // Eléments card :
             let newProduct = document.createElement('div');
@@ -24,19 +26,22 @@ fetch('http://localhost:3000/api/furniture')
             newProduct.classList.add('col-12', 'col-lg-4', 'my-3');
             newCard.classList.add('card', 'shadow-lg');
             newImageUrl.classList.add('card-img-top', 'mb-2');
-            newImageUrl.setAttribute('alt', donnees[i].name);
-            newImageUrl.src = donnees[i].imageUrl;
+            newImageUrl.setAttribute('alt', products[i].name);
+            newImageUrl.src = products[i].imageUrl;
             newName.classList.add('card-title', 'text-center');
-            newName.textContent = donnees[i].name;
+            newName.textContent = products[i].name;
             newDescription.classList.add('card-text', 'text-center', 'px-2');
-            newDescription.textContent = donnees[i].description;
+            newDescription.textContent = products[i].description;
             newPrice.classList.add('text-center');
-            newPrice.textContent = donnees[i].price / 100 + ' €';
+            newPrice.textContent = products[i].price / 100 + ' €';
             newVarnish.classList.add('text-center');
-            newVarnish.textContent = 'Disponible en: \r\n' + donnees[i].varnish;
+            newVarnish.textContent = 'Disponible en: \r\n' + products[i].varnish;
             newBtn.classList.add('btn', 'btn-secondary', 'mx-4', 'text-white');
-            newBtn.href = "product.html?id=" + donnees[i]._id;
+            newBtn.href = "product.html?id=" + products[i]._id;
             newBtn.textContent = 'Personnalisez le produit';
+
+            //Log du prix des articles:
+            console.log(products[i].price / 100);
 
             //Event au passage souris sur btn: 
             newBtn.addEventListener("mouseenter", () => {
