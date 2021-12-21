@@ -3,7 +3,6 @@ console.log(localStorage);
 
 //Récupérer orderId ds URL:
 let searchParams = new URLSearchParams(window.location.search);
-
 let orderId = searchParams.get("id");
 
 //On récupère le total de la commande:

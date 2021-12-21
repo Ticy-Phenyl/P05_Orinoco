@@ -41,7 +41,6 @@ resumeCart.appendChild(cartDiv);
 //Articles: 
 for (let i in cart) {
 
-
   //Div article:
   const divArticle = document.createElement('div');
   cartDiv.appendChild(divArticle);
@@ -89,7 +88,7 @@ for (let i in cart) {
   quantityDiv.classList.add('text-left', 'justify-space-between',);
   quantityDiv.name = 'quantity';
   quantityDiv.classList.add('mt-n5');
-  quantityDiv.setAttribute('onkeypress', 'return false');
+
   divQtyetPrice.appendChild(quantityDiv);
 
   const quantitySelected = document.createElement('span');
@@ -108,7 +107,6 @@ for (let i in cart) {
   quantityDecrease.addEventListener('click', () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
     cart[i].quantity--;
-
     localStorage.setItem('cart', JSON.stringify(cart))
   });
 
@@ -132,46 +130,37 @@ for (let i in cart) {
   quantityDiv.appendChild(priceArticle);
 
 
-
-
-
   //Montant total des articles du panier:
   articleNumber = cart[i].quantity;
   totalAmmountCart += cart[i].price * articleNumber;
 
+  console.log(cart[i].price / 100);
+  console.log(articleNumber);
+  console.log(totalAmmountCart / 100);
 
-  //Conditions si qté = 0:
+
+  //Retrait btn - si qté = 0:
   if (cart[i].quantity == 0) {
     priceArticle.textContent = 0 + " €";
     quantityDecrease.remove();
   }
 
-  console.log(totalAmmountCart / 100);
 
   //Suppression article au clic:
   removeArticle.addEventListener('click', () => {
     divImage.remove();
     divName.remove();
 
+    //On récupère l'item cart du localStorage:
     let cart = JSON.parse(localStorage.getItem('cart'));
-
-    console.log(cart);
-
-
-
-    let articleId = cart[i];
-    console.log(articleId);
+    console.log(cart[i]);
 
     totalAmmountCart -= (cart[i].price * cart[i].quantity);
 
     cart.push(totalAmmountCart);
     lastItem = cart.pop();
     console.log(lastItem);
-
-
-    localStorage.removeItem(cart[i]);
-    console.log(localStorage);
-
+    cart.splice(i, 1);
 
     if (totalAmmountCart === 0) {
       titleDiv.textContent = 'Votre panier est vide';
@@ -182,19 +171,13 @@ for (let i in cart) {
     }
 
 
-    cart.splice(i, 1);
+
     localStorage.setItem('cart', JSON.stringify(cart));
 
     location.reload();
 
-
   });
-
-
 }
-
-
-
 
 
 //Total du panier: 
@@ -214,7 +197,6 @@ ammountCart.textContent = totalAmmountCart / 100 + ' €';
 totalCart.appendChild(ammountCart);
 
 
-
 //Bouton validation panier:
 const buttonOk = document.createElement('button');
 buttonOk.classList.add('btn-success', 'text-white', 'rounded', 'offset-10', 'p-2', 'my-3', 'mr-2');
@@ -225,8 +207,6 @@ if (totalAmmountCart === 0) {
   buttonOk.style.display = 'none';
 }
 cartDiv.appendChild(buttonOk);
-
-
 
 
 // --------- Formulaire validation commande ---------
@@ -285,8 +265,10 @@ votreMail.appendChild(correctMail);
 yourMail.addEventListener('focusout', () => {
   if ((maskMail.test(yourMail.value) != true) || (yourMail.value === '')) {
     correctMail.style.visibility = 'visible';
+    buttonCmd.style.visibility = 'hidden';
   } else {
     correctMail.style.visibility = 'hidden';
+    buttonCmd.style.visibility = 'visible';
   }
 });
 
@@ -320,8 +302,10 @@ votreNom.appendChild(correctName);
 yourName.addEventListener('focusout', () => {
   if ((maskNameAndfirstName.test(yourName.value) != true) || (yourName.value === '')) {
     correctName.style.visibility = 'visible';
+    buttonCmd.style.visibility = 'hidden';
   } else {
     correctName.style.visibility = 'hidden';
+    buttonCmd.style.visibility = 'visible';
   }
 });
 
@@ -351,8 +335,10 @@ votrePrenom.appendChild(correctFirstName);
 yourFirstname.addEventListener('focusout', () => {
   if ((maskNameAndfirstName.test(yourFirstname.value) != true) || (yourFirstname.value === '')) {
     correctFirstName.style.visibility = 'visible';
+    buttonCmd.style.visibility = 'hidden';
   } else {
     correctFirstName.style.visibility = 'hidden';
+    buttonCmd.style.visibility = 'visible';
   }
 })
 
@@ -385,8 +371,10 @@ votreAdresse.appendChild(correctedAddress);
 yourAddress.addEventListener('focusout', () => {
   if ((maskAdressAndCity.test(yourAddress.value) != true) || (yourAddress.value === '')) {
     correctedAddress.style.visibility = 'visible';
+    buttonCmd.style.visibility = 'hidden';
   } else {
     correctedAddress.style.visibility = 'hidden';
+    buttonCmd.style.visibility = 'visible';
   }
 })
 
@@ -420,8 +408,10 @@ votreCodePostal.appendChild(correctCP);
 yourPostalCode.addEventListener('focusout', () => {
   if ((maskCP.test(yourPostalCode.value) != true) || (yourPostalCode.value === '')) {
     correctCP.style.visibility = 'visible';
+    buttonCmd.style.visibility = 'hidden';
   } else {
     correctCP.style.visibility = 'hidden';
+    buttonCmd.style.visibility = 'visible';
   }
 })
 
@@ -450,8 +440,10 @@ votreVille.appendChild(correctCity);
 yourCity.addEventListener('focusout', () => {
   if ((maskAdressAndCity.test(yourCity.value) != true) || (yourCity.value === '')) {
     correctCity.style.visibility = 'visible';
+    buttonCmd.style.visibility = 'hidden';
   } else {
     correctCity.style.visibility = 'hidden';
+    buttonCmd.style.visibility = 'visible';
   }
 })
 
@@ -466,14 +458,11 @@ buttonOk.addEventListener('click', () => {
 //Bouton validation formulaire:
 const buttonCmd = document.createElement('a');
 buttonCmd.classList.add('btn', 'btn-success', 'text-white', 'rounded', 'text-center', 'p-2');
-
 buttonCmd.textContent = 'Validez votre commande';
 coordonneesBody.appendChild(buttonCmd);
 
 
-
 //------------ Stockage données formulaire --------------
-
 
 
 //Vérification et récupération des input:
@@ -516,7 +505,8 @@ buttonCmd.addEventListener('click', () => {
       localStorage.setItem("total", totalAmmountCart / 100);
 
       //OrderId présent ds url page confirmation:
-      buttonCmd.href = 'orderSent.html?id=' + data.orderId;
+      //buttonCmd.href = 'orderSent.html?id=' + data.orderId
+      location = 'orderSent.html?id=' + data.orderId;
       localStorage.removeItem("orderId");
     })
     .catch((error) => {
