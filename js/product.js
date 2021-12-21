@@ -30,6 +30,8 @@ cartDiv.innerHTML = 'Ajoutez au panier ' + '&nbsp' + `<i class="fas fa-cart-plus
 cartDiv.style.fontSize = '1.5rem';
 cartDiv.href = 'cart.html';
 
+let index = '';
+
 //Récupérer produit selon son id:
 fetch("http://localhost:3000/api/furniture/" + productId)
     //Passage de json à objet:
@@ -111,7 +113,7 @@ fetch("http://localhost:3000/api/furniture/" + productId)
                 let description = productDescription;
 
                 //Utilisation findIndex pr savoir si ajout cart ou juste ++:
-                let index = cart.findIndex(newItem => newItem._id === _id);
+                index = cart.findIndex(newItem => newItem._id === _id);
                 let indexA = cart.findIndex(newItem => newItem.varnish === varnish);
 
                 if ((index !== -1) && (indexA !== -1)) {

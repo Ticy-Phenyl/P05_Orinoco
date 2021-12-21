@@ -18,12 +18,6 @@ resumeCart.classList.add('col-lg', 'mb-2', 'pt-4', 'ml-2');
 //Variable montant total panier:
 let totalAmmountCart = 0;
 let articleNumber = 1;
-let article;
-let articlePrice;
-
-let montantParArticle = [];
-let totalArticle;
-
 let lastItem;
 
 // -------- Contenu du panier ----------
@@ -175,10 +169,6 @@ for (let i in cart) {
     console.log(lastItem);
 
 
-    localStorage.setItem('lastItem', lastItem);
-    console.log(localStorage);
-
-
     localStorage.removeItem(cart[i]);
     console.log(localStorage);
 
@@ -192,16 +182,7 @@ for (let i in cart) {
     }
 
 
-
-    console.log(cart[i].price / 100);
-    console.log(cart[i].quantity);
-    console.log(totalAmmountCart / 100);
-
     cart.splice(i, 1);
-
-    console.log(localStorage);
-
-
     localStorage.setItem('cart', JSON.stringify(cart));
 
     location.reload();
@@ -209,14 +190,11 @@ for (let i in cart) {
 
   });
 
-  console.log(cart);
 
 }
 
 
-let reverse = localStorage.getItem('lastItem');
 
-console.log(reverse / 100);
 
 
 //Total du panier: 
@@ -235,12 +213,19 @@ ammountCart.classList.add('font-weight-bold', 'mr-3');
 ammountCart.textContent = totalAmmountCart / 100 + ' €';
 totalCart.appendChild(ammountCart);
 
+
+
 //Bouton validation panier:
 const buttonOk = document.createElement('button');
 buttonOk.classList.add('btn-success', 'text-white', 'rounded', 'offset-10', 'p-2', 'my-3', 'mr-2');
 buttonOk.setAttribute('id', 'validBtn');
 buttonOk.textContent = 'Validez votre panier';
+//Condition si montant panier = 0:
+if (totalAmmountCart === 0) {
+  buttonOk.style.display = 'none';
+}
 cartDiv.appendChild(buttonOk);
+
 
 
 
@@ -535,7 +520,7 @@ buttonCmd.addEventListener('click', () => {
       localStorage.removeItem("orderId");
     })
     .catch((error) => {
-      alert("Erreur : " + error);
+      console.log(error);
     });
 
 });
