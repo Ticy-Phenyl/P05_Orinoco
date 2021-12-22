@@ -170,10 +170,8 @@ for (let i in cart) {
       buttonOk.style.display = 'none';
     }
 
-
-
     localStorage.setItem('cart', JSON.stringify(cart));
-
+    //Rechargement fenêtre:
     location.reload();
 
   });
@@ -207,6 +205,12 @@ if (totalAmmountCart === 0) {
   buttonOk.style.display = 'none';
 }
 cartDiv.appendChild(buttonOk);
+
+//Apparition formulaire coordonnées onclick:
+buttonOk.addEventListener('click', () => {
+  submitDiv.hidden = false;
+  submitDiv.scrollIntoView();
+});
 
 
 // --------- Formulaire validation commande ---------
@@ -448,13 +452,6 @@ yourCity.addEventListener('focusout', () => {
 })
 
 
-//Apparition formulaire coordonnées onclick:
-buttonOk.addEventListener('click', () => {
-  submitDiv.hidden = false;
-  submitDiv.scrollIntoView();
-})
-
-
 //Bouton validation formulaire:
 const buttonCmd = document.createElement('a');
 buttonCmd.classList.add('btn', 'btn-success', 'text-white', 'rounded', 'text-center', 'p-2');
@@ -468,11 +465,9 @@ coordonneesBody.appendChild(buttonCmd);
 //Vérification et récupération des input:
 
 buttonCmd.addEventListener('click', () => {
-
   let product = [];
   //Articles in cart:
   product.push(cart);
-
 
   //Variables user input:
   const cmde = {

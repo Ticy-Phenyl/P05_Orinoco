@@ -74,7 +74,6 @@ fetch("http://localhost:3000/api/furniture/" + productId)
             varnishDiv.add(newOption);
         }
 
-
         // Retrait alerte varnsish une fois sélectionné:
         varnishDiv.addEventListener('click', () => {
             varnishDiv.classList.remove('border-danger', 'text-danger');
@@ -84,12 +83,13 @@ fetch("http://localhost:3000/api/furniture/" + productId)
 
         //Stocker varnish sélectionné:
         let lastSelect = localStorage.getItem('varnishDiv');
-
         if (lastSelect) {
             varnishDiv.value = lastSelect;
         }
+
+        //Evenement onchange si changement vernis et log:
         varnishDiv.onchange = () => {
-            lastSelect = varnishDiv.options[varnishDiv.selectedIndex].value;
+            lastSelect = varnishDiv[varnishDiv.selectedIndex].value;
             cartDiv.classList.replace('btn-secondary', 'btn-primary');
             console.log(lastSelect);
         }
@@ -124,10 +124,7 @@ fetch("http://localhost:3000/api/furniture/" + productId)
                 localStorage.setItem("cart", JSON.stringify(cart));
 
             }
-
         })
-
-
     })
     .catch(error => {
         console.log(error);
