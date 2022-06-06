@@ -1,0 +1,147 @@
+@import "../scss/scss/bootstrap.scss";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap");
+
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    text-align: center !important;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    color: $black;
+    text-align: center;
+    font-size: 1.25rem;
+
+    a {
+        font-size: 2rem;
+    }
+}
+
+h3 {
+    font-size: 1.25rem;
+    word-break: break-word;
+}
+
+#numberOrder {
+    word-break: break-word;
+}
+
+h5 {
+    color: $black;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 5px;
+}
+
+p,
+#dscrptnSelected {
+    white-space: pre-line;
+    font-size: 1.2rem;
+}
+
+.card {
+    text-decoration: none;
+    border-radius: 10px;
+    border: 0.7px solid gray;
+    padding: 0;
+    background-color: #ece8e8e1;
+
+    &-img-top {
+        max-width: 100%;
+        object-fit: cover;
+        padding: 0.5em;
+    }
+}
+
+#furnitures {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#dscrptnSelected {
+    font-size: 1.65rem;
+
+    &::first-line {
+        font: oblique bold 1.9rem "Noto Sans JP";
+    }
+}
+
+#prcSelected {
+    font-size: 1.75rem;
+}
+
+.btn {
+    border: 0.6px solid $secondary;
+    margin: 15px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+
+    &:invalid {
+        border: $warning;
+    }
+}
+
+//Remove placeholder input lors focus (formulaire contact cart.html)
+.form-control:focus::placeholder {
+    opacity: 0;
+}
+
+footer {
+    background-color: $white;
+    
+    a {
+        font-size: 1.3rem;
+    }
+}
+
+nav {
+    a {
+        font-size: 1.4em;
+    }
+
+    i {
+        color: $warning;
+    }
+
+    img {
+        border-radius: 10px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    #validBtn {
+        margin: auto;
+    }
+}
+
+@media only screen and (max-width: 990px) {
+    #nameCart {
+        display: none;
+    }
+
+    .sr-only {
+        display: contents;
+        color: $white;
+    }
+}
+
+
+@media only screen and (max-width: 800px) {
+    h1 {
+        font-size: 6vw;
+    }
+
+    #dscrptnSelected {
+        font-size: 1.3rem;
+    }
+}
