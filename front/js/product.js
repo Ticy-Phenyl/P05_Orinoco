@@ -22,7 +22,7 @@ let descriptionDiv = document.getElementById("dscrptnSelected");
 descriptionDiv.classList.add('text-left', 'mx-2', 'mb-4');
 
 let priceDiv = document.getElementById("prcSelected");
-priceDiv.classList.add('mb-3')
+priceDiv.classList.add('mb-3');
 
 let varnishDiv = document.getElementById('vrnshSelected');
 varnishDiv.classList.add('w-25', 'mx-auto', 'my-4', 'custom-select', 'text-secondary');
@@ -77,7 +77,7 @@ result(url + "/" + productId).then(product => {
     let productVarnish = product.varnish;
     for (let i in productVarnish) {
         let newOption = document.createElement("option");
-        newOption.setAttribute('value', productVarnish[i])
+        newOption.setAttribute('value', productVarnish[i]);
         newOption.text = productVarnish[i];
         newOption.classList.add('text-dark');
         varnishDiv.add(newOption);
@@ -100,7 +100,7 @@ result(url + "/" + productId).then(product => {
         lastSelect = varnishDiv[varnishDiv.selectedIndex].value;
         cartDiv.classList.replace('btn-secondary', 'btn-primary');
         console.log(lastSelect);
-    }
+    };
 
 
     // Stockage localStorage si varnish ok: 
@@ -136,12 +136,12 @@ result(url + "/" + productId).then(product => {
             }
 
             //On ajoute le lien vers la page panier :
-            btnToCart.classList.replace('btn-secondary', 'btn-success')
+            btnToCart.classList.replace('btn-secondary', 'btn-success');
             btnToCart.href = 'cart.html';
 
             localStorage.setItem("cart", JSON.stringify(cart));
             console.log(cart);
-        };
+        }
 
-    })
-})
+    });
+});

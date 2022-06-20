@@ -1,7 +1,7 @@
 //Setup localStorage:
 if (!localStorage.getItem('cart')) {
   localStorage.setItem('cart', JSON.stringify([]));
-};
+}
 
 //Récupérer contenu localStorage: 
 let cart = JSON.parse(localStorage.getItem('cart'));
@@ -28,14 +28,14 @@ if (cart.length === 0) {
   titleDiv.textContent = 'Votre panier est vide';
   const titleCartDiv = document.createElement('h2');
   titleCartDiv.classList.add('mb-1', 'mx-auto');
-  titleCartDiv.innerHTML = '<a href="index.html">Voir nos articles disponibles</a>'
+  titleCartDiv.innerHTML = '<a href="index.html">Voir nos articles disponibles</a>';
   resumeCart.appendChild(titleCartDiv);
   cartDiv.style.display = 'none';
 } else if (cart.length === 1) {
   titleDiv.textContent = 'Voici votre article :';
 } else {
   titleDiv.textContent = 'Voici vos articles :';
-};
+}
 resumeCart.appendChild(cartDiv);
 
 //Articles: 
@@ -79,7 +79,7 @@ for (let i in cart) {
   divName.appendChild(varnishArticle);
 
   const divQtyetPrice = document.createElement('div');
-  divQtyetPrice.classList.add('border-primary')
+  divQtyetPrice.classList.add('border-primary');
   divName.appendChild(divQtyetPrice);
 
 
@@ -107,7 +107,7 @@ for (let i in cart) {
   quantityDecrease.addEventListener('click', () => {
     let cart = JSON.parse(localStorage.getItem('cart'));
     cart[i].quantity--;
-    localStorage.setItem('cart', JSON.stringify(cart))
+    localStorage.setItem('cart', JSON.stringify(cart));
   });
 
   const quantityIncrease = document.createElement('i');
@@ -165,7 +165,7 @@ for (let i in cart) {
     if (totalAmmountCart === 0) {
       titleDiv.textContent = 'Votre panier est vide';
       cartDiv.classList.add('mx-auto');
-      totalCart.innerHTML = '<a href="index.html">Voir nos articles disponibles</a>'
+      totalCart.innerHTML = '<a href="index.html">Voir nos articles disponibles</a>';
       ammountCart.style.display = 'none';
       buttonOk.style.display = 'none';
     }
@@ -189,7 +189,7 @@ totalCart.style.fontSize = '1.6rem';
 totalCart.textContent = 'Total panier';
 totalCartDiv.appendChild(totalCart);
 
-const ammountCart = document.createElement('span')
+const ammountCart = document.createElement('span');
 ammountCart.classList.add('font-weight-bold', 'mr-3');
 ammountCart.textContent = totalAmmountCart / 100 + ' €';
 totalCart.appendChild(ammountCart);
@@ -247,9 +247,9 @@ const formDiv2 = document.createElement('div');
 formDiv2.classList.add('form-group', 'text-left');
 formBody.appendChild(formDiv2);
 
-const votreMail = document.createElement('label')
+const votreMail = document.createElement('label');
 votreMail.htmlFor = 'mail';
-votreMail.textContent = 'Votre mail:'
+votreMail.textContent = 'Votre mail:';
 formDiv2.appendChild(votreMail);
 
 const yourMail = document.createElement('input');
@@ -283,9 +283,9 @@ const formDiv0 = document.createElement('div');
 formDiv0.classList.add('form-group', 'text-left');
 formBody.appendChild(formDiv0);
 
-const votreNom = document.createElement('label')
+const votreNom = document.createElement('label');
 votreNom.htmlFor = 'lastName';
-votreNom.textContent = 'Votre nom:'
+votreNom.textContent = 'Votre nom:';
 formDiv0.appendChild(votreNom);
 
 const yourName = document.createElement('input');
@@ -315,10 +315,10 @@ yourName.addEventListener('focusout', () => {
 
 
 //Partie pour le prénom:
-const votrePrenom = document.createElement('label')
+const votrePrenom = document.createElement('label');
 votrePrenom.classList.add('ml-2');
 votrePrenom.htmlFor = 'firstName';
-votrePrenom.textContent = 'Votre prénom:'
+votrePrenom.textContent = 'Votre prénom:';
 formDiv0.appendChild(votrePrenom);
 
 const yourFirstname = document.createElement('input');
@@ -380,7 +380,7 @@ yourAddress.addEventListener('focusout', () => {
     correctedAddress.style.visibility = 'hidden';
     buttonCmd.style.visibility = 'visible';
   }
-})
+});
 
 
 //Partie pour le code postal:
@@ -417,7 +417,7 @@ yourPostalCode.addEventListener('focusout', () => {
     correctCP.style.visibility = 'hidden';
     buttonCmd.style.visibility = 'visible';
   }
-})
+});
 
 
 //Partie pour la ville:
@@ -449,7 +449,7 @@ yourCity.addEventListener('focusout', () => {
     correctCity.style.visibility = 'hidden';
     buttonCmd.style.visibility = 'visible';
   }
-})
+});
 
 
 //Bouton validation formulaire:
@@ -495,7 +495,7 @@ buttonCmd.addEventListener('click', () => {
     .then((response) => response.json())
     .then((data) => {
       localStorage.clear();
-      console.log(data)
+      console.log(data);
       localStorage.setItem("orderId", data.orderId);
       localStorage.setItem("total", totalAmmountCart / 100);
 

@@ -18,7 +18,7 @@ thanksTitle.textContent = 'Merci pour votre commande';
 //Création card et titre:
 const enterPoint = document.getElementById('orderConfirmation');
 
-const divResumeorder = document.createElement('section')
+const divResumeorder = document.createElement('section');
 divResumeorder.classList.add('mx-auto', 'w-50');
 enterPoint.appendChild(divResumeorder);
 
