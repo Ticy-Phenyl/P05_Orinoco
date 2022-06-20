@@ -439,7 +439,7 @@ votreVille.appendChild(yourCity);
 const correctCity = document.createElement('p');
 correctCity.classList.add('text-danger');
 correctCity.style.visibility = 'hidden';
-correctCity.textContent = 'Merci de renseigner votre adresse';
+correctCity.textContent = 'Merci de renseigner votre ville';
 votreVille.appendChild(correctCity);
 yourCity.addEventListener('focusout', () => {
   if ((maskAdressAndCity.test(yourCity.value) != true) || (yourCity.value === '')) {

@@ -24,7 +24,7 @@ fetch('http://localhost:3000/api/furniture')
 
             // Class/content des éléments :
             newProduct.classList.add('col-12', 'col-lg-4', 'my-3');
-            newCard.classList.add('card', 'shadow-lg');
+            newCard.classList.add('card', 'shadow-lg', 'h-100');
             newImageUrl.classList.add('card-img-top', 'mb-2');
             newImageUrl.setAttribute('alt', products[i].name);
             newImageUrl.src = products[i].imageUrl;
@@ -36,7 +36,7 @@ fetch('http://localhost:3000/api/furniture')
             newPrice.textContent = products[i].price / 100 + ' €';
             newVarnish.classList.add('text-center');
             newVarnish.textContent = 'Disponible en: \r\n' + products[i].varnish;
-            newBtn.classList.add('btn', 'btn-secondary', 'mx-4', 'text-white');
+            newBtn.classList.add('btn', 'btn-secondary', 'mx-auto', 'text-white');
             newBtn.href = "product.html?id=" + products[i]._id;
             newBtn.textContent = 'Personnalisez le produit';
 
