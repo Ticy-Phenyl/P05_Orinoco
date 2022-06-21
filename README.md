@@ -10,5 +10,10 @@ Avoir Node et 'npm' installés sur la machine.
 
 Cloner le repository. 
 
+Se positionner dans le dossier back et exécuter "node server"
+Le serveur se lance sur le port 3000
+
+
+
 
 
