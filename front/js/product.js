@@ -27,10 +27,10 @@ priceDiv.classList.add('mb-3');
 let varnishDiv = document.getElementById('vrnshSelected');
 varnishDiv.classList.add('w-25', 'mx-auto', 'my-4', 'custom-select', 'text-secondary');
 
-let cartDiv = document.getElementById("crtSelected");
-cartDiv.classList.add('btn', 'btn-secondary', 'text-white', 'rounded', 'w-45', 'mx-auto', 'my-4', 'py-1');
-cartDiv.innerHTML = 'Ajoutez au panier ' + '&nbsp' + `<i class="fas fa-cart-plus"></i>`;
-cartDiv.style.fontSize = '1.5rem';
+let btnAdd = document.getElementById("addToCart");
+btnAdd.classList.add('btn', 'btn-secondary', 'text-white', 'rounded', 'w-45', 'mx-auto', 'my-4', 'py-1');
+btnAdd.innerHTML = 'Ajoutez au panier ' + '&nbsp' + `<i class="fas fa-cart-plus"></i>`;
+btnAdd.style.fontSize = '1.5rem';
 
 let btnToCart = document.getElementById("goToCart");
 btnToCart.classList.add('btn', 'btn-secondary', 'text-white', 'rounded', 'w-45', 'mx-auto', 'my-4', 'py-1');
@@ -98,15 +98,14 @@ result(url + "/" + productId).then(product => {
     //Evenement onchange si changement vernis et log:
     varnishDiv.onchange = () => {
         lastSelect = varnishDiv[varnishDiv.selectedIndex].value;
-        cartDiv.classList.replace('btn-secondary', 'btn-primary');
+        btnAdd.classList.replace('btn-secondary', 'btn-primary');
         console.log(lastSelect);
     };
 
 
     // Stockage localStorage si varnish ok: 
-    cartDiv.addEventListener('click', () => {
+    btnAdd.addEventListener('click', () => {
         if (vrnshSelected.value == 'choisissez votre vernis') {
-            cartDiv.removeAttribute('href');
             varnishDiv.classList.add('border-danger', 'text-danger');
         } else {
             // Définiton de cart :
@@ -135,7 +134,15 @@ result(url + "/" + productId).then(product => {
 
             }
 
-            //On ajoute le lien vers la page panier :
+            //Chgmt texte btn pr confirmer ajout et durée chgmt :
+            btnAdd.innerHTML = 'Ajouté au panier ';
+
+            function addedToCart() {
+                btnAdd.innerHTML = "Ajouter au panier";
+            }
+            setTimeout(addedToCart, 3000);
+
+            //On change colori btn et on ajoute le lien vers la page panier :
             btnToCart.classList.replace('btn-secondary', 'btn-success');
             btnToCart.href = 'cart.html';
 

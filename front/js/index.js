@@ -1,3 +1,4 @@
+//Lien élément html avec JS :
 const furniture = document.getElementById('furnitures');
 
 //recupération des données de l'API
@@ -30,26 +31,27 @@ fetch('http://localhost:3000/api/furniture')
             newImageUrl.src = products[i].imageUrl;
             newName.classList.add('card-title', 'text-center');
             newName.textContent = products[i].name;
-            newDescription.classList.add('card-text', 'text-center', 'px-2');
-            newDescription.textContent = products[i].description;
             newPrice.classList.add('text-center');
             newPrice.textContent = products[i].price / 100 + ' €';
+            newDescription.classList.add('card-text', 'text-center', 'px-2');
+            newDescription.textContent = products[i].description;
             newVarnish.classList.add('text-center');
-            newVarnish.textContent = 'Disponible en: \r\n' + products[i].varnish;
+            newVarnish.innerHTML = `<i>Disponible en : \r\n</i>` + products[i].varnish;
             newBtn.classList.add('btn', 'btn-secondary', 'mx-auto', 'text-white');
             newBtn.href = "product.html?id=" + products[i]._id;
             newBtn.textContent = 'Personnalisez le produit';
 
-            //Log du prix des articles:
-            console.log(products[i].price / 100);
 
-            //Event au passage souris sur btn: 
-            newBtn.addEventListener("mouseenter", () => {
-                newBtn.classList.replace('btn-secondary', 'btn-primary');
-            });
-            newBtn.addEventListener("mouseleave", () => {
-                newBtn.classList.replace('btn-primary', 'btn-secondary');
-            });
+            //Fctn au passage souris sur btn: 
+            function mouseInnOut() {
+                newBtn.addEventListener("mouseenter", () => {
+                    newBtn.classList.replace('btn-secondary', 'btn-primary');
+                });
+                newBtn.addEventListener("mouseleave", () => {
+                    newBtn.classList.replace('btn-primary', 'btn-secondary');
+                })
+            }
+            mouseInnOut();
 
             //Intégration à index.html:   
             furniture.appendChild(newProduct);

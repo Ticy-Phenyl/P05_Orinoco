@@ -93,7 +93,7 @@ for (let i in cart) {
 
   const quantitySelected = document.createElement('span');
   quantitySelected.classList.add('text-center');
-  quantitySelected.textContent = 'Quantité:  \xa0 ' + cart[i].quantity;
+  quantitySelected.textContent = 'Quantité :  \xa0 ' + cart[i].quantity;
   quantitySelected.style.fontSize = '1.5rem';
   quantitySelected.style.border = 'none';
   quantitySelected.value = cart[i].quantity;
@@ -153,15 +153,14 @@ for (let i in cart) {
 
     //On récupère l'item cart du localStorage:
     let cart = JSON.parse(localStorage.getItem('cart'));
-    console.log(cart[i]);
 
     totalAmmountCart -= (cart[i].price * cart[i].quantity);
 
     cart.push(totalAmmountCart);
     lastItem = cart.pop();
-    console.log(lastItem);
     cart.splice(i, 1);
 
+    //Si total panier = 0 : 
     if (totalAmmountCart === 0) {
       titleDiv.textContent = 'Votre panier est vide';
       cartDiv.classList.add('mx-auto');
@@ -266,15 +265,18 @@ correctMail.classList.add('text-danger');
 correctMail.style.visibility = 'hidden';
 correctMail.textContent = 'Merci de renseigner votre mail';
 votreMail.appendChild(correctMail);
-yourMail.addEventListener('focusout', () => {
-  if ((maskMail.test(yourMail.value) != true) || (yourMail.value === '')) {
-    correctMail.style.visibility = 'visible';
-    buttonCmd.style.visibility = 'hidden';
-  } else {
-    correctMail.style.visibility = 'hidden';
-    buttonCmd.style.visibility = 'visible';
-  }
-});
+function addEmail() {
+  yourMail.addEventListener('focusout', () => {
+    if ((maskMail.test(yourMail.value) != true) || (yourMail.value === '')) {
+      correctMail.style.visibility = 'visible';
+      buttonCmd.style.visibility = 'hidden';
+    } else {
+      correctMail.style.visibility = 'hidden';
+      buttonCmd.style.visibility = 'visible';
+    }
+  })
+};
+addEmail();
 
 
 //Partie pour le nom de famille:
